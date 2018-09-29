@@ -6,3 +6,18 @@ GRID_SIZE = 20
 
 # COLOURS
 BG_COLOR = [255, 255, 255]
+
+# SKIN-TONES
+CL_STONE = {}
+CL_STONE[0] = (234, 192, 134) # cauc-brown
+CL_STONE[1] = (255, 224, 189) # cauc-pink
+CL_STONE[2] = (255, 173, 96)  # cauc-orange
+CL_STONE[3] = (156, 114, 72)  # afram-lbrown
+CL_STONE[4] = (135, 97, 39)   # afram-mbrown
+CL_STONE[5] = (111, 79, 29)   # afram-dbrown
+
+# WIZ-TONES
+CL_WTONE = {}
+CL_WTONE[0] = (255, 0, 255)  # wiz-magenta
+CL_WTONE[1] = (138, 43, 226) # wiz-violet
+CL_WTONE[2] = (75, 0, 130)   # wiz-indigo

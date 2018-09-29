@@ -3,34 +3,48 @@
 import pygame
 import random
 
-# Skin Tones
-stone = {}
-stone[0] = (234, 192, 134) # cauc-brown
-stone[1] = (255, 224, 189) # cauc-pink
-stone[2] = (255, 173, 96)  # cauc-orange
-
+from conf import *
 
 class Player(pygame.sprite.Sprite):
    # Constructor for active players
 
-   def __init__(self, c_idx, width, height):
+   def __init__(self, c_idx, grid_size):
        #
        pygame.sprite.Sprite.__init__(self)
 
-       self.image = pygame.Surface([width, height])
-       self.image.fill(stone[c_idx])
+       self.image = pygame.Surface([grid_size, grid_size])
+       self.image.fill(CL_STONE[c_idx])
 
        self.rect = self.image.get_rect()
 
    def update(self, action):
        pass
 
-class Balls(pygame.sprite.Sprite):
-    # Constructor for balls
+class Wizard(pygame.sprite.Sprite):
+    # Constructor for active wizards
 
-    def __init__(self, radius):
+    def __init__(self, c_idx, grid_size):
         #
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.Surface([width, height]) 
-        self.image.fill()
+        self.image = pygame.Surface([grid_size, grid_size])
+        self.image.fill(CL_WTONE[c_idx])
+
+        self.rect = self.image.get_rect()
+
+    def update(self, action):
+        pass
+
+class Balls(pygame.sprite.Sprite):
+    # Constructor for balls
+
+    def __init__(self, radius, grid_size):
+        #
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = pygame.Surface([grid_size, grid_size])
+        self.image.fill((255,255,255)) 
+        self.rect  = pygame.draw.circle(self.image, (0,0,0), (10, 10), radius)
+
+    def update(self, prop):
+        pass
