@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 
+# Import main libraries
 import pygame, sys, logging, time
+
+# Import main subfunctions
+from events_handler import process_events
+
+# Import static parameters
+from conf import *
 
 # Set up logging
 logging.basicConfig(filename = 'wizballs.log', filemode = 'w', level = logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
 l = logging.getLogger()
-
-# Import static parameters
-from conf import *
 
 # Initialise Pygame
 init_error_check = pygame.init()
@@ -20,8 +24,6 @@ else:
 # Set up the game window
 playSurface = pygame.display.set_mode((X_SIZE, Y_SIZE))
 pygame.display.set_caption('WizBalls!')
-
-from events_handler import process_events
 
 # Main run loop
 while True:
