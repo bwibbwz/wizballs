@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
-import pygame
+import pygame, logging
 from basic_functions import quit_game
 
-def process_events(events, l):
+# Set up shorthand for logging
+l = logging.getLogger()
+
+def process_events(events):
     for event in events:
         l.debug(event)
         if event.type == pygame.QUIT:
