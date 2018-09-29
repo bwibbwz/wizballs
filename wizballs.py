@@ -5,6 +5,7 @@ import pygame, sys, logging, time
 
 # Import main subfunctions
 from events_handler import process_events
+from gameboard import draw_gameboard
 
 # Import static parameters
 from conf import *
@@ -22,12 +23,17 @@ else:
     l.debug('Pygame succesfully initialised.')
 
 # Set up the game window
-playSurface = pygame.display.set_mode((X_SIZE, Y_SIZE))
+pygame.display.set_mode((X_SIZE, Y_SIZE))
 pygame.display.set_caption('WizBalls!')
 
 # Main run loop
 while True:
     process_events(pygame.event.get())
+    draw_gameboard()
+    
+    pygame.display.flip()
+
+
 
 
 
