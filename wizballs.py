@@ -7,5 +7,6 @@ logging.basicConfig(filename = 'wizballs.log', filemode = 'w', level = logging.D
 l = logging.getLogger()
 
 # Import static parameters
-from wizballs_conf import X_SIZE, Y_SIZE, GRID_SIZE
+from wizballs_conf import *
+
 
