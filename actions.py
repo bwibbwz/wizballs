@@ -32,3 +32,6 @@ class WizBallsActions:
             self.rect.move_ip(0,-dr)
         elif action == 'DOWN':
             self.rect.move_ip(0,dr)
+        # SFX
+        elif action == 'EXPLODE':
+            pass

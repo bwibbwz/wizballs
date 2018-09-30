@@ -25,6 +25,9 @@ pygame.display.set_caption('WizBalls!')
 from court import init_all_court_fields
 court_fields_group = init_all_court_fields()
 
+from players import init_all_players
+player_group = init_all_players()
+
 # Main run loop
 while True:
     process_events(pygame.event.get())
@@ -32,6 +35,7 @@ while True:
     play_surface.fill(CL_BG) 
     
     court_fields_group.draw(play_surface)
+    player_group.draw(play_surface)
 
     pygame.display.flip()
 
