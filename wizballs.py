@@ -29,6 +29,8 @@ court_tiles_group = init_all_court_tiles(court_fields_group.find_by_name('play_c
 from players import init_all_players
 player_group = init_all_players(court_tiles_group)
 
+print([sprite.grid_pos for sprite in player_group])
+
 # Main run loop
 while True:
     process_events(pygame.event.get())
@@ -39,6 +41,7 @@ while True:
     court_tiles_group.draw(play_surface)
 
     player_group.draw(play_surface)
+    player_group.update('RIGHT')
 
     pygame.display.flip()
 
