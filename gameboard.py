@@ -22,7 +22,14 @@ def draw_gameboard():
     courts = CourtGroup()
     courts.add(score_board)
     courts.add(play_court)
-    
+
+    c3 = Court([150, 13, 255], [50, 60])
+    c3.rect.topleft = [GRID_SIZE, GRID_SIZE]
+    cs = CourtGroup()
+    cs.add(c3)
+
+
+    cs.draw(play_court.image)
     courts.draw(gameSurface)
 
 class Court(pygame.sprite.Sprite):
