@@ -29,18 +29,10 @@ def init_all_court_tiles(play_court):
     for k in range(X_TILES):
         for j in range(Y_TILES):
             tile = CourtTile()
-            #tile.image.fill([10*k, 10*j, 0])
             tile.rect.topleft = [(k + 1) * 2 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0], (j + 1) * 2 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0]]
             logging.debug(tile.rect.topleft)
             court_tiles_group.add(tile)
             
-    
-    #one_tile = CourtTile()
-    #one_tile.rect.topleft = [pos + GRID_SIZE for pos in play_court.rect.topleft]
-
-    #court_tiles_group = Group()
-    #court_tiles_group.add(one_tile)
-
     return court_tiles_group
     
 
