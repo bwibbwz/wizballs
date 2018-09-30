@@ -18,7 +18,7 @@ class CourtTiles(pygame.sprite.Sprite):
     def __init__(self, color, pos, size):
         pass
 
-def initialise_all_court_fields():
+def init_all_court_fields():
     score_board = CourtField(CL_SCORE, (X_SIZE - 2 * GRID_SIZE, Y_SIZE - GRID_SIZE - COURT_RATIO * Y_SIZE))
     score_board.rect.topleft = [GRID_SIZE, GRID_SIZE]
     
