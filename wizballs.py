@@ -31,9 +31,9 @@ player_group = init_all_players(court_tiles_group)
 
 from groups import AllSprites
 all_sprites = AllSprites()
-all_sprites.add_sprites_from_group(player_group)
-all_sprites.add_sprites_from_group(court_fields_group)
-all_sprites.add_sprites_from_group(court_tiles_group)
+all_sprites.add(court_fields_group)
+all_sprites.add(court_tiles_group)
+all_sprites.add(player_group)
 
 # Main run loop
 while True:
