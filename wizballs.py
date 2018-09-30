@@ -15,12 +15,8 @@ logging.basicConfig(filename = 'wizballs.log', filemode = 'w', level = logging.D
 l = logging.getLogger()
 
 # Initialise Pygame
-init_error_check = pygame.init()
-if init_error_check[1] > 0:
-    l.critical('Pygame initialisation error.')
-    sys.exit(-1)
-else:
-    l.debug('Pygame succesfully initialised.')
+pygame.init()
+pygame.mixer.init()
 
 # Set up the game window
 pygame.display.set_mode((X_SIZE, Y_SIZE))
