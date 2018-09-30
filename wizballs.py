@@ -29,16 +29,20 @@ court_tiles_group = init_all_court_tiles(court_fields_group.find_by_name('play_c
 from players import init_all_players
 player_group = init_all_players(court_tiles_group)
 
+from groups import AllSprites
+all_sprites = AllSprites()
+all_sprites.add_sprites_from_group(player_group)
+all_sprites.add_sprites_from_group(court_fields_group)
+all_sprites.add_sprites_from_group(court_tiles_group)
+
 # Main run loop
 while True:
     process_events(pygame.event.get())
 
     play_surface.fill(CL_BG) 
     
-    court_fields_group.draw(play_surface)
-    court_tiles_group.draw(play_surface)
-
-    player_group.draw(play_surface)
+    #all_sprites.update()
+    all_sprites.draw(play_surface)
 
     pygame.display.flip()
 
