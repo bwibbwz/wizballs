@@ -48,7 +48,7 @@ init_all_court_fields()
 init_all_court_tiles(court_fields_group.find_by_name('play_court')[0])
 
 from players import init_all_players
-player_group = init_all_players(court_tiles_group)
+init_all_players(court_tiles_group)
 
 # Main run loop
 while True:
