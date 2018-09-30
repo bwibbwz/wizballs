@@ -18,7 +18,7 @@ class Player(pygame.sprite.Sprite):
 
        self.rect = self.image.get_rect()
 
-       self.action = WBA()
+       self.action = WBA(self.rect)
        self.team = team
 
    def update(self, action):
@@ -37,8 +37,10 @@ class Wizard(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.team = team
 
+        #self.action = WBA()
+
     def update(self, action):
-        pass
+        pass        
 
 class Balls(pygame.sprite.Sprite):
     # Constructor for balls

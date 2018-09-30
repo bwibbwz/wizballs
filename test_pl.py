@@ -43,15 +43,22 @@ for i in range(2):
 import time
 
 test=True
+i = 0
 
-while test:
+while i < 2:
     screen.fill(CL_BG)
     player_list.draw(screen)
     wizard_list.draw(screen)
     ball_list.draw(screen)
     pygame.display.flip()
+    time.sleep(0.5)
+
+    for player in player_list:
+        player.update('RIGHT')
+        player.update('DOWN')
 
     time.sleep(0.5)
-    test=False
+    i += 1
+    #test=False
 
 pygame.quit()
