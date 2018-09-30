@@ -21,39 +21,50 @@ pygame.mixer.init()
 play_surface = pygame.display.set_mode((X_SIZE, Y_SIZE))
 pygame.display.set_caption('WizBalls!')
 
-# Initialise the individual sprite groups
+# Create the Sprite groups
+from groups import Group, CourtTilesGroup, PlayersGroup
+all_sprites = pygame.sprite.LayeredUpdates()
+court_fields_group = Group()
+court_tiles_group = CourtTilesGroup()
+players_group = PlayersGroup()
+
+# Assign Sprites to classes
+from court import CourtTile, CourtField
+from players import Player, Wizard
+CourtField.groups = all_sprites, court_fields_group
+CourtTile.groups = all_sprites, court_tiles_group
+Player.groups = all_sprites, players_group
+Wizard.groups = all_sprites, players_group
+
+# Set layer priority
+CourtField._layer = 1
+CourtTile._layer = 2
+Player._layer = 3
+Wizard._layer = 3
+
+# Initialise each group of sprites
 from court import init_all_court_fields, init_all_court_tiles
-court_fields_group = init_all_court_fields()
-court_tiles_group = init_all_court_tiles(court_fields_group.find_by_name('play_court')[0])
+init_all_court_fields()
+init_all_court_tiles(court_fields_group.find_by_name('play_court')[0])
 
 from players import init_all_players
-player_group = init_all_players(court_tiles_group)
+init_all_players(court_tiles_group)
 
-print([sprite.selected for sprite in player_group])
-
-from groups import AllSprites
-all_sprites = AllSprites()
-all_sprites.add(court_fields_group)
-all_sprites.add(court_tiles_group)
-all_sprites.add(player_group)
+print([sprite.selected for sprite in players_group])
 
 i = True
 
 # Main run loop
 while i:
-    process_events(pygame.event.get(), player_group)
+    process_events(pygame.event.get(), players_group)
 
     play_surface.fill(CL_BG) 
     
-    court_fields_group.draw(play_surface)
-    court_tiles_group.draw(play_surface)
+    players_group.update_render()
 
-    player_group.draw(play_surface)
-    player_group.update_render()
-    #player_group.update('RIGHT')
     #all_sprites.update()
     all_sprites.draw(play_surface)
 
     pygame.display.flip()
 
-    print([s.selected for s in player_group])
+    print([s.selected for s in players_group])
