@@ -16,6 +16,8 @@ class Explosions(pygame.sprite.Sprite):
         self.dx = random.randint(-speed,speed) # vel-x
         self.dy = random.randint(-speed,speed) # vel-y
 
+        # Set up here surface image and corresponding rect -->
+
     def update(self, seconds):
         #
         self.pos[0] += self.dx * seconds

@@ -43,7 +43,7 @@ class Balls(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = pygame.Surface([grid_size, grid_size])
-        self.image.fill((255,255,255)) 
+        self.image.fill(CL_BG) 
         self.rect  = pygame.draw.circle(self.image, (0,0,0), (10, 10), radius)
 
     def update(self, prop):
