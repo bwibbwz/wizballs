@@ -8,10 +8,6 @@ class PlayerGroup(pygame.sprite.OrderedUpdates):
         #
         pygame.sprite.OrderedUpdates.__init__(self)
 
-class CourtGroup(pygame.sprite.Group):
-    def __init__(self):
-        pygame.sprite.Group.__init__(self)
-
 class SpecialEffectsGroup(pygame.sprite.Group):
     """ Group to handle special effects (explosions)
     """

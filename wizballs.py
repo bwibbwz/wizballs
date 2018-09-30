@@ -5,7 +5,6 @@ import pygame, sys, logging, time
 
 # Import main subfunctions
 from events_handler import process_events
-from gameboard import draw_gameboard
 
 # Import static parameters
 from conf import *
@@ -19,14 +18,21 @@ pygame.init()
 pygame.mixer.init()
 
 # Set up the game window
-pygame.display.set_mode((X_SIZE, Y_SIZE))
+play_surface = pygame.display.set_mode((X_SIZE, Y_SIZE))
 pygame.display.set_caption('WizBalls!')
+
+# Initialise the individual sprite groups
+from court import initialise_all_court_fields
+court_fields_group = initialise_all_court_fields()
 
 # Main run loop
 while True:
     process_events(pygame.event.get())
-    draw_gameboard()
+
+    play_surface.fill(CL_BG) 
     
+    court_fields_group.draw(play_surface)
+
     pygame.display.flip()
 
 
