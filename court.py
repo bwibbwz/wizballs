@@ -21,7 +21,7 @@ class CourtTile(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([GRID_SIZE, GRID_SIZE])
-        self.image.fill([150, 14, 60])
+        self.image.fill(CL_TILES)
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
