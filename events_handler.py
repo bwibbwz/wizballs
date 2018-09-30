@@ -31,7 +31,9 @@ def process_events(events, player_group):
                               if s.rect.collidepoint(pos)]
             not_clicked_sprite = [s for s in player_group
                                   if not s.rect.collidepoint(pos)]
-            clicked_sprite[0].selected = True
+
+            if clicked_sprite:            
+                clicked_sprite[0].selected = True
             for s in not_clicked_sprite:
                 s.selected = False
             

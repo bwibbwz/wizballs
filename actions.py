@@ -13,7 +13,7 @@ dr = GRID_SIZE
 
 class WizBallsActions:
 
-    def __init__(self, pos):
+    def __init__(self, pos=None):
         # LOG previous player actions
         self.log = []
         self.pos = pos
@@ -24,6 +24,9 @@ class WizBallsActions:
 
     def update(self, action):
         # Movement
+        if self.pos is None:
+            return
+
         if action == 'RIGHT':
             self.pos[0] += 1
         elif action == 'LEFT':
@@ -35,3 +38,5 @@ class WizBallsActions:
         # SFX
         elif action == 'EXPLODE':
             pass
+
+        self.log.append(action)
