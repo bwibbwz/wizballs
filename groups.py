@@ -8,6 +8,14 @@ class Group(pygame.sprite.Group):
     def find_by_name(self, search):
         return [sprite for sprite in self.sprites() if sprite.name == search]
 
+class CourtTilesGroup(Group):
+    def __init__(self):
+        Group.__init__(self)
+
+    def get_tile(self, x, y):
+        x_sprites = [sprite for sprite in self.sprites() if sprite.x == x]
+        return [sprite for sprite in x_sprites if sprite.y == y][0]
+
 class PlayerGroup(pygame.sprite.OrderedUpdates):
     # Group to handle player sprites
 

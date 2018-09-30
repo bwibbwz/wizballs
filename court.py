@@ -2,7 +2,7 @@
 
 import pygame, logging
 from conf import *
-from groups import Group
+from groups import Group, CourtTilesGroup
 
 class CourtLine(pygame.sprite.Sprite):
     def __init__(self):
@@ -18,17 +18,19 @@ class CourtField(pygame.sprite.Sprite):
         self.name = name
 
 class CourtTile(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([GRID_SIZE, GRID_SIZE])
         self.image.fill([150, 14, 60])
         self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
 
 def init_all_court_tiles(play_court):
-    court_tiles_group = Group()
+    court_tiles_group = CourtTilesGroup()
     for k in range(X_TILES):
         for j in range(Y_TILES):
-            tile = CourtTile()
+            tile = CourtTile(k, j)
             tile.rect.topleft = [(k + 1) * 2 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0], (j + 1) * 2 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0]]
             logging.debug(tile.rect.topleft)
             court_tiles_group.add(tile)

@@ -26,6 +26,7 @@ from court import init_all_court_fields, init_all_court_tiles
 court_fields_group = init_all_court_fields()
 court_tiles_group = init_all_court_tiles(court_fields_group.find_by_name('play_court')[0])
 
+
 # Main run loop
 while True:
     process_events(pygame.event.get())
