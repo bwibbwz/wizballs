@@ -21,3 +21,6 @@ CL_WTONE = {}
 CL_WTONE[0] = (255, 0, 255)  # wiz-magenta
 CL_WTONE[1] = (138, 43, 226) # wiz-violet
 CL_WTONE[2] = (75, 0, 130)   # wiz-indigo
+
+# Physics
+FORCE_OF_GRAVITY = 9.8 # 9.8 pixels / s^2
