@@ -2,13 +2,14 @@
 
 import pygame
 import random
+from actions import WizBallsActions as WBA
 
 from conf import *
 
 class Player(pygame.sprite.Sprite):
    # Constructor for active players
 
-   def __init__(self, c_idx, grid_size):
+   def __init__(self, c_idx, grid_size, team):
        #
        pygame.sprite.Sprite.__init__(self)
 
@@ -17,13 +18,16 @@ class Player(pygame.sprite.Sprite):
 
        self.rect = self.image.get_rect()
 
+       self.action = WBA()
+       self.team = team
+
    def update(self, action):
-       pass
+       self.action.update(action)
 
 class Wizard(pygame.sprite.Sprite):
     # Constructor for active wizards
 
-    def __init__(self, c_idx, grid_size):
+    def __init__(self, c_idx, grid_size, team):
         #
         pygame.sprite.Sprite.__init__(self)
 
@@ -31,6 +35,7 @@ class Wizard(pygame.sprite.Sprite):
         self.image.fill(CL_WTONE[c_idx])
 
         self.rect = self.image.get_rect()
+        self.team = team
 
     def update(self, action):
         pass
