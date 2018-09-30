@@ -1,6 +1,10 @@
 # Various Groups which handle different sprites
 import pygame
 
+class AllSprites(pygame.sprite.LayeredUpdates):
+    def __init__(self):
+        pygame.sprite.LayeredUpdates.__init__(self)
+
 class Group(pygame.sprite.Group):
     def __init__(self):
         pygame.sprite.Group.__init__(self)

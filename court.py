@@ -23,6 +23,7 @@ class CourtTile(pygame.sprite.Sprite):
         self.image = pygame.Surface([GRID_SIZE, GRID_SIZE])
         self.image.fill(CL_TILES)
         self.rect = self.image.get_rect()
+
         self.x = x
         self.y = y
 
@@ -31,7 +32,7 @@ def init_all_court_tiles(play_court):
     for k in range(X_TILES):
         for j in range(Y_TILES):
             tile = CourtTile(k, j)
-            tile.rect.topleft = [(k + 1) * 2 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0], (j + 1) * 2 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0]]
+            tile.rect.topleft = [(k + 1) * 2 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0], (j + 1) * 2 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[1]]
             logging.debug(tile.rect.topleft)
             court_tiles_group.add(tile)
             
