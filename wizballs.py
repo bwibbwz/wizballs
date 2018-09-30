@@ -31,7 +31,7 @@ players_group = PlayersGroup()
 
 # Assign Sprites to classes
 from court import CourtTile, CourtField, CommandTile
-from players import Player, Wizard
+from players import ActivePlayers
 CourtField.groups = all_sprites, court_fields_group
 CourtTile.groups = all_sprites, court_tiles_group
 CommandTile.groups = all_sprites, command_tiles_group
