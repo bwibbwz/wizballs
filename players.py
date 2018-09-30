@@ -2,7 +2,7 @@
 
 import pygame
 import random
-from groups import PlayerGroup
+from groups import PlayersGroup
 from actions import WizBallsActions as WBA
 
 from conf import *
@@ -12,7 +12,7 @@ class Player(pygame.sprite.Sprite):
 
    def __init__(self, c_idx, grid_size, team):
        #
-       pygame.sprite.Sprite.__init__(self)
+       pygame.sprite.Sprite.__init__(self, self.groups)
 
        self.image = pygame.Surface([grid_size, grid_size])
        self.image.fill(CL_STONE[c_idx][0])
@@ -31,7 +31,7 @@ class Wizard(pygame.sprite.Sprite):
 
     def __init__(self, c_idx, grid_size, team):
         #
-        pygame.sprite.Sprite.__init__(self)
+        pygame.sprite.Sprite.__init__(self, self.groups)
 
         self.image = pygame.Surface([grid_size, grid_size])
         self.image.fill(CL_WTONE[c_idx])
@@ -58,7 +58,6 @@ def init_all_players(court_tiles_group):
     # TEAM 1 corresponds to Sprites
     
 
-    group = PlayerGroup()
     # Two teams of T_SIZE + W_SIZE
     for team in [0, 1]:
         for player in range(T_SIZE):
@@ -67,15 +66,11 @@ def init_all_players(court_tiles_group):
            court_sprite = court_tiles_group.get_tile(team*10 + 3, player*3 + 4)
            p.rect.x = court_sprite.rect.x
            p.rect.y = court_sprite.rect.y
-           group.add(p)
         c_idx = random.randint(0,2)
         w = Wizard(c_idx, GRID_SIZE, team)
         court_sprite = court_tiles_group.get_tile(team*10 + 3 * team + 2, 5)
         w.rect.x = court_sprite.rect.x
         w.rect.y = court_sprite.rect.y 
-        group.add(w)       
-
-    return group
 
 class Balls(pygame.sprite.Sprite):
     # Constructor for balls

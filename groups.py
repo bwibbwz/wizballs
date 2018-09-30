@@ -1,10 +1,6 @@
 # Various Groups which handle different sprites
 import pygame
 
-class AllSprites(pygame.sprite.LayeredUpdates):
-    def __init__(self):
-        pygame.sprite.LayeredUpdates.__init__(self)
-
 class Group(pygame.sprite.Group):
     def __init__(self):
         pygame.sprite.Group.__init__(self)
@@ -20,7 +16,7 @@ class CourtTilesGroup(Group):
         x_sprites = [sprite for sprite in self.sprites() if sprite.x == x]
         return [sprite for sprite in x_sprites if sprite.y == y][0]
 
-class PlayerGroup(pygame.sprite.OrderedUpdates):
+class PlayersGroup(pygame.sprite.OrderedUpdates):
     # Group to handle player sprites
 
     def __init__(self):
