@@ -45,16 +45,36 @@ class Wizard(pygame.sprite.Sprite):
     def update(self, action):
         self.action.update(action)  
 
-def init_all_players():
+def init_all_players(court_tiles_group):
+    """ TEAM 1   TEAM 2
+
+            P    P
+         W          W
+            P    P
+
+        FIELD: 20x10
+
+    """
+    # TEAM 1 corresponds to Sprites
+    
+
     group = PlayerGroup()
     # Two teams of T_SIZE + W_SIZE
     for team in [0, 1]:
         for player in range(T_SIZE):
            c_idx = random.randint(0,5)
            p = Player(c_idx, GRID_SIZE, team)
+           court_sprite = court_tiles_group.get_tile(team*10 + 3, player*3 + 4)
+           p.rect.x = court_sprite.rect.x
+           p.rect.y = court_sprite.rect.y
            group.add(p)
         c_idx = random.randint(0,2)
         w = Wizard(c_idx, GRID_SIZE, team)
+        court_sprite = court_tiles_group.get_tile(team*10 + 3 * team + 2, 5)
+        w.rect.x = court_sprite.rect.x
+        w.rect.y = court_sprite.rect.y 
+        group.add(w)       
+
     return group
 
 class Balls(pygame.sprite.Sprite):

@@ -27,7 +27,7 @@ court_fields_group = init_all_court_fields()
 court_tiles_group = init_all_court_tiles(court_fields_group.find_by_name('play_court')[0])
 
 from players import init_all_players
-player_group = init_all_players()
+player_group = init_all_players(court_tiles_group)
 
 # Main run loop
 while True:
@@ -36,8 +36,9 @@ while True:
     play_surface.fill(CL_BG) 
     
     court_fields_group.draw(play_surface)
-    player_group.draw(play_surface)
     court_tiles_group.draw(play_surface)
+
+    player_group.draw(play_surface)
 
     pygame.display.flip()
 
