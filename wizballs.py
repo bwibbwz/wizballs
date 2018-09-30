@@ -22,8 +22,8 @@ play_surface = pygame.display.set_mode((X_SIZE, Y_SIZE))
 pygame.display.set_caption('WizBalls!')
 
 # Initialise the individual sprite groups
-from court import initialise_all_court_fields
-court_fields_group = initialise_all_court_fields()
+from court import init_all_court_fields
+court_fields_group = init_all_court_fields()
 
 # Main run loop
 while True:
