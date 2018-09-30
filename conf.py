@@ -13,6 +13,7 @@ CL_BG = [255, 255, 255]
 CL_COURT = [205, 133, 0]
 CL_TILES = [155, 83, 50]
 CL_SCORE = [80, 80, 80]
+CL_RED = [255, 0, 0]
 
 # SKIN-TONES / TAG
 CL_STONE = {}

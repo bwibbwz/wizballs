@@ -6,7 +6,7 @@ from basic_functions import quit_game
 # Set up shorthand for logging
 l = logging.getLogger()
 
-def process_events(events):
+def process_events(events, player_group):
     for event in events:
         l.debug(event)
         if event.type == pygame.QUIT:
@@ -24,4 +24,14 @@ def process_events(events):
             if event.key == pygame.K_ESCAPE:
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
                 l.info('Key pressed: ESCAPE')
-
+        elif event.type == pygame.MOUSEBUTTONUP:
+            l.info('Mouse button pressed')
+            pos = pygame.mouse.get_pos()
+            clicked_sprite = [s for s in player_group 
+                              if s.rect.collidepoint(pos)]
+            not_clicked_sprite = [s for s in player_group
+                                  if not s.rect.collidepoint(pos)]
+            clicked_sprite[0].selected = True
+            for s in not_clicked_sprite:
+                s.selected = False
+            

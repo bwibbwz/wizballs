@@ -27,6 +27,11 @@ class PlayerGroup(pygame.sprite.OrderedUpdates):
         #
         pygame.sprite.OrderedUpdates.__init__(self)
 
+    def update_render(self):
+        #
+        for s in self.sprites():
+            s.update_render()
+
 class SpecialEffectsGroup(pygame.sprite.Group):
     """ Group to handle special effects (explosions)
     """

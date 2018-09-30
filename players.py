@@ -17,6 +17,9 @@ class Player(pygame.sprite.Sprite):
        self.image = pygame.Surface([grid_size, grid_size])
        self.image.fill(CL_STONE[c_idx][0])
 
+       # Hold on to original image
+       self.orig_image  = self.image.copy()
+
        self.rect = self.image.get_rect()
 
        self.action = WBA(self.rect)
@@ -28,6 +31,14 @@ class Player(pygame.sprite.Sprite):
 
    def update(self, action):
        self.action.update(action)
+       if self.selected:
+           AddFlash(self.image)
+           self.rect = self.image.get_rect()
+       else:
+           self.image = self.orig_image.copy()
+
+   def update_render(self):
+       pass
 
 class Wizard(pygame.sprite.Sprite):
     # Constructor for active wizards
@@ -39,17 +50,31 @@ class Wizard(pygame.sprite.Sprite):
         self.image = pygame.Surface([grid_size, grid_size])
         self.image.fill(CL_WTONE[c_idx])
 
+        # Hold on to original image
+        self.orig_image = self.image.copy()
+
         self.rect = self.image.get_rect()
+
+        self.action = WBA(self.rect)
         self.team = team
         self.tag = 'W' # Wizard
         self.grid_pos = [0, 0] 
-
-        self.action = WBA(self.rect)
+        self.c_idx = c_idx
 
         self.selected = False
 
     def update(self, action):
-        self.action.update(action)  
+        self.action.update(action)
+
+    def update_render(self):
+        if self.selected:
+            rect = self.rect
+            self.image.fill(CL_RED)
+            self.image.fill(CL_WTONE[self.c_idx], rect=[rect[0]+5,rect[0]-5, 10, 10])
+
+        if not self.selected:
+            self.image = self.orig_image.copy()
+
 
 def init_all_players(court_tiles_group):
     """ TEAM 1   TEAM 2
@@ -71,14 +96,16 @@ def init_all_players(court_tiles_group):
            p = Player(c_idx, GRID_SIZE, team)
            # Inital position
            p.grid_pos = [team * 10 + 3, player * 3 + 4]
-           p.rect.topleft = court_tiles_group.get_tile(p.grid_pos[0], p.grid_pos[1]).rect.topleft
+           p.rect.topleft = \
+             court_tiles_group.get_tile(p.grid_pos[0], p.grid_pos[1]).rect.topleft
            group.add(p)
 
         # Wizards
         c_idx = random.randint(0,2)
         w = Wizard(c_idx, GRID_SIZE, team)
         w.grid_pos = [team * 10 + 3 * team + 2, 5]
-        w.rect.topleft = court_tiles_group.get_tile(w.grid_pos[0], w.grid_pos[1]).rect.topleft
+        w.rect.topleft = \
+          court_tiles_group.get_tile(w.grid_pos[0], w.grid_pos[1]).rect.topleft
         group.add(w)       
 
     return group
