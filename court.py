@@ -4,7 +4,7 @@ import pygame
 import logging as l
 from conf import *
 from groups import Group, CourtTilesGroup
-from sprites import SelectableSprites
+from sprites import SelectableSprite
 
 class CourtLine(pygame.sprite.Sprite):
     def __init__(self):
