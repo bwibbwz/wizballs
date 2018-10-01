@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 
-import pygame, logging
+import pygame
+import logging as l
 from basic_functions import quit_game
-
-# Set up shorthand for logging
-l = logging.getLogger()
 
 def process_events(events, player_group):
     for event in events:

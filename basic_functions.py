@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
-import pygame, sys, logging
-
-# Shorthand for logging
-l = logging.getLogger()
+import pygame, sys
+import logging as l
 
 def quit_game(quit_code=0):
     l.info('Exit game.')

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import pygame, logging
+import pygame
+import logging as l
 from conf import *
 from groups import Group, CourtTilesGroup
 
