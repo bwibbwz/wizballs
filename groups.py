@@ -8,6 +8,19 @@ class Group(pygame.sprite.Group):
     def find_by_name(self, search):
         return [sprite for sprite in self.sprites() if sprite.name == search]
 
+class SingleSelectableSpriteGroup(Group):
+    def __init__(self):
+        pygame.sprite.Group.__init__(self)
+
+    def select_sprite(name):
+        pass
+
+    def deselect_sprite(name):
+        pass
+    
+    def deselect_all_sprites(name):
+        pass
+
 class CourtTilesGroup(Group):
     def __init__(self):
         Group.__init__(self)
