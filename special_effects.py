@@ -11,7 +11,7 @@ class Explode(pygame.sprite.Sprite):
     def __init__(self, sprite): # tuples
         #
         pygame.sprite.Sprite.__init__(self, self.groups)
-        self.pos = sprite.rect
+        self.pos = sprite.rect.copy()
 
         self.dx = random.randint(-GRID_SIZE, GRID_SIZE) # vel-x
         self.dy = random.randint(-GRID_SIZE, GRID_SIZE) # vel-y
@@ -32,7 +32,7 @@ class Explode(pygame.sprite.Sprite):
 
     def update(self):
         #
-        seconds = 0.0001
+        seconds = 0.1
         
         if self.time > self.lifetime:
             self.kill()
@@ -43,7 +43,8 @@ class Explode(pygame.sprite.Sprite):
         self.pos[1] += self.dy * seconds # integrator: (v + g * ds) * ds
 
         if Explode.gravity:
-            self.dy -= FORCE_OF_GRAVITY * 100000 * seconds
+            self.dy += FORCE_OF_GRAVITY * seconds
 
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
+
