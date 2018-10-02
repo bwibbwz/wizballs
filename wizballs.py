@@ -29,7 +29,7 @@ court_tiles_group = CourtTilesGroup()
 command_tiles_group = Group()
 players_group = PlayersGroup()
 special_effects_group = Group()
-players_ssg = SingleSelectableSpriteGroup()
+players_sssg = SingleSelectableSpriteGroup()
 
 # Assign Sprites to classes
 from court import CourtTile, CourtField, CommandTile
@@ -38,7 +38,7 @@ from special_effects import Explode
 CourtField.groups = all_sprites, court_fields_group
 CourtTile.groups = all_sprites, court_tiles_group
 CommandTile.groups = all_sprites, command_tiles_group
-ActivePlayers.groups = all_sprites, players_group, players_ssg
+ActivePlayers.groups = all_sprites, players_group, players_sssg
 Explode.groups = all_sprites, special_effects_group
 
 # Set layer priority
