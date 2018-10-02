@@ -3,6 +3,7 @@
 import pygame
 import logging as l
 from conf import *
+from groups import SingleSelectableSpriteGroup
 
 class SelectableSprite(pygame.sprite.Sprite):
     def __init__(self):
@@ -11,6 +12,9 @@ class SelectableSprite(pygame.sprite.Sprite):
 
     def select(self):
         self._selected = True
+        for group in self.groups:
+            if group.__class__ == SingleSelectableSpriteGroup:
+                group.deselect_all_other_sprites(self)
         self.update()
 
     def deselect(self):

@@ -22,13 +22,14 @@ play_surface = pygame.display.set_mode((X_SIZE, Y_SIZE))
 pygame.display.set_caption('WizBalls!')
 
 # Create the Sprite groups
-from groups import Group, CourtTilesGroup, PlayersGroup
+from groups import Group, CourtTilesGroup, PlayersGroup, SingleSelectableSpriteGroup
 all_sprites = pygame.sprite.LayeredUpdates()
 court_fields_group = Group()
 court_tiles_group = CourtTilesGroup()
 command_tiles_group = Group()
 players_group = PlayersGroup()
 special_effects_group = Group()
+players_ssg = SingleSelectableSpriteGroup()
 
 # Assign Sprites to classes
 from court import CourtTile, CourtField, CommandTile
@@ -37,7 +38,7 @@ from special_effects import Explode
 CourtField.groups = all_sprites, court_fields_group
 CourtTile.groups = all_sprites, court_tiles_group
 CommandTile.groups = all_sprites, command_tiles_group
-ActivePlayers.groups = all_sprites, players_group
+ActivePlayers.groups = all_sprites, players_group, players_ssg
 Explode.groups = all_sprites, special_effects_group
 
 # Set layer priority
@@ -60,7 +61,7 @@ i = True
 
 # Main run loop
 while i:
-    process_events(pygame.event.get(), players_group)
+    process_events(pygame.event.get(), players_group, all_sprites)
 
     play_surface.fill(CL_BG) 
     

@@ -12,14 +12,24 @@ class SingleSelectableSpriteGroup(Group):
     def __init__(self):
         pygame.sprite.Group.__init__(self)
 
-    def select_sprite(name):
-        pass
+    def select_sprite(self, sprite):
+        for s in self.sprites():
+            if s == sprite:
+                sprite.select()
+            else:
+                s.deselect()
 
-    def deselect_sprite(name):
-        pass
+    def deselect_sprite(self, sprite):
+        sprite.deselect()
     
-    def deselect_all_sprites(name):
-        pass
+    def deselect_all_other_sprites(self, sprite):
+        for s in self.sprites():
+            if s != sprite:
+                s.deselect()
+
+    def deselect_all_sprites(self):
+        for s in self.sprites():
+            s.deselect()
 
 class CourtTilesGroup(Group):
     def __init__(self):

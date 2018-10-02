@@ -4,7 +4,7 @@ import pygame
 import logging as l
 from basic_functions import quit_game
 
-def process_events(events, player_group):
+def process_events(events, player_group, all_sprites):
     for event in events:
         l.debug(event)
         if event.type == pygame.QUIT:
@@ -44,11 +44,20 @@ def process_events(events, player_group):
             pos = pygame.mouse.get_pos()
             clicked_sprite = [s for s in player_group 
                               if s.rect.collidepoint(pos)]
-            not_clicked_sprite = [s for s in player_group
-                                  if not s.rect.collidepoint(pos)]
+            #not_clicked_sprite = [s for s in player_group
+            #                      if not s.rect.collidepoint(pos)]
 
             if clicked_sprite:            
                 clicked_sprite[0].select()
-            for s in not_clicked_sprite:
-                s.deselect()
+            #for s in not_clicked_sprite:
+            #    s.deselect()
             
+
+            # Here is a list of all the sprites that were "clicked". We need to come up with a sensible way of figuring out which one is to be "selected"
+            all_sprites_clicked = [sprite for sprite in all_sprites if sprite.rect.collidepoint(pos)]
+            player_sprites_clicked = [sprite for sprite in all_sprites_clicked if player_group.has(sprite)]
+            #if len(player_sprites_clicked) == 1:
+            #    player_sprites_clicked[0].select()
+
+            print(player_sprites_clicked)
+            print(all_sprites_clicked)
