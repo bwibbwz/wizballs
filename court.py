@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
-import pygame, logging
+import pygame
+import logging as l
 from conf import *
 from groups import Group, CourtTilesGroup
+from sprites import SelectableSprite
 
 class CourtLine(pygame.sprite.Sprite):
     def __init__(self):
@@ -28,7 +30,7 @@ class CourtTile(pygame.sprite.Sprite):
         self.x = x
         self.y = y
 
-class CommandTile(pygame.sprite.Sprite):
+class CommandTile(SelectableSprite):
     def __init__(self, name, symbol):
         pygame.sprite.Sprite.__init__(self, self.groups)
 
@@ -41,7 +43,6 @@ class CommandTile(pygame.sprite.Sprite):
 
         self.name = name
         self.symbol = symbol
-        self.selected = False
 
 def init_all_command_tiles(score_board):
     ref_pos = score_board.rect.midleft

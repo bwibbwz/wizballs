@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 # Import main libraries
-import pygame, sys, logging, time
+import pygame, sys, time
+import logging as l
 
 # Import main subfunctions
 from events_handler import process_events
@@ -10,8 +11,7 @@ from events_handler import process_events
 from conf import *
 
 # Set up logging
-logging.basicConfig(filename = 'wizballs.log', filemode = 'w', level = logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
-l = logging.getLogger()
+l.basicConfig(filename = 'wizballs.log', filemode = 'w', level = l.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
 
 # Initialise Pygame
 pygame.init()
