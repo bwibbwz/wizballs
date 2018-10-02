@@ -20,9 +20,10 @@ class CourtField(pygame.sprite.Sprite):
 
         self.name = name
 
-class CourtTile(pygame.sprite.Sprite):
+class CourtTile(SelectableSprite):
     def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self, self.groups)
+        SelectableSprite.__init__(self)
+
         self.image = pygame.Surface([GRID_SIZE, GRID_SIZE])
         self.image.fill(CL_TILES)
         self.rect = self.image.get_rect()
