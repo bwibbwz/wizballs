@@ -40,8 +40,8 @@ ActivePlayers.groups = all_sprites, players_group
 # Set layer priority
 CourtField._layer = 1
 CourtTile._layer = 2
-CommandTile._layer = 2
-ActivePlayers._layer = 3
+CommandTile._layer = 3
+ActivePlayers._layer = 4
 
 # Initialise each group of sprites
 from court import init_all_court_fields, init_all_court_tiles, init_all_command_tiles
@@ -61,11 +61,11 @@ while i:
     play_surface.fill(CL_BG) 
     
     players_group.update_render()
-    players_group.update('RIGHT')
+    #players_group.update()
 
     #all_sprites.update()
     all_sprites.draw(play_surface)
 
     pygame.display.flip()
 
-    time.sleep(0.1)
+    #time.sleep(2.0)
