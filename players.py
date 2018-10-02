@@ -2,6 +2,7 @@
 
 import pygame
 import random
+from sprites import SelectableSprite
 from groups import PlayersGroup
 from actions import WizBallsActions as WBA
 from special_effects import Explode
@@ -18,16 +19,15 @@ def draw_rect(surface, outline_color, fill_color, border=6):
     rect = surface.get_rect()
     surface.fill(fill_color, rect.inflate(-border, -border))
 
-class ActivePlayers(pygame.sprite.Sprite):
+class ActivePlayers(SelectableSprite):
     """ Main class for basketball players and wizards 
 
     """
     def __init__(self):
         #
-        pygame.sprite.Sprite.__init__(self, self.groups)
+        SelectableSprite.__init__(self)
 
         self.grid_pos = [0, 0]
-        self.selected = False
         self.action   = WBA()
         self.image      = None
         self.orig_image = None
@@ -55,7 +55,7 @@ class ActivePlayers(pygame.sprite.Sprite):
             pygame.sprite.Sprite.kill(self)
 
     def update_render(self):
-        if self.selected and self.image is not None:
+        if self.is_selected() and self.image is not None:
             draw_rect(self.image, CL_RED, self.color)
         else:
             self.image = self.orig_image.copy() 

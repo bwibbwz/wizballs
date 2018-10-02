@@ -13,22 +13,22 @@ def process_events(events, player_group):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT or event.key == ord('d'):
                 l.info('Key pressed: RIGHT')
-                sprite = [s for s in player_group if s.selected]
+                sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
                     sprite[0].update('RIGHT')
             if event.key == pygame.K_LEFT or event.key == ord('a'):
                 l.info('Key pressed: LEFT')
-                sprite = [s for s in player_group if s.selected]
+                sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
                     sprite[0].update('LEFT')
             if event.key == pygame.K_DOWN or event.key == ord('s'):
                 l.info('Key pressed: DOWN')
-                sprite = [s for s in player_group if s.selected]
+                sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
                     sprite[0].update('DOWN')
             if event.key == pygame.K_UP or event.key == ord('w'):
                 l.info('Key pressed: UP')
-                sprite = [s for s in player_group if s.selected]
+                sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
                     sprite[0].update('UP')
             if event.key == pygame.K_ESCAPE:
@@ -36,7 +36,7 @@ def process_events(events, player_group):
                 l.info('Key pressed: ESCAPE')
             if event.key == pygame.K_SPACE:
                 l.info('Key pressed: EXPLODE')
-                sprite = [s for s in player_group if s.selected]
+                sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
                     sprite[0].update('EXPLODE')
         elif event.type == pygame.MOUSEBUTTONUP:
@@ -48,7 +48,7 @@ def process_events(events, player_group):
                                   if not s.rect.collidepoint(pos)]
 
             if clicked_sprite:            
-                clicked_sprite[0].selected = True
+                clicked_sprite[0].select()
             for s in not_clicked_sprite:
-                s.selected = False
+                s.deselect()
             
