@@ -50,7 +50,7 @@ class ActivePlayers(pygame.sprite.Sprite):
             self.kill()
 
     def kill(self):
-        for _ in range(random.randint(3,15)):
+        for _ in range(random.randint(6,15)):
             Explode(self)
             pygame.sprite.Sprite.kill(self)
 
