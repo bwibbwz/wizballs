@@ -28,20 +28,24 @@ court_fields_group = Group()
 court_tiles_group = CourtTilesGroup()
 command_tiles_group = Group()
 players_group = PlayersGroup()
+special_effects_group = Group()
 
 # Assign Sprites to classes
 from court import CourtTile, CourtField, CommandTile
 from players import ActivePlayers
+from special_effects import Explode
 CourtField.groups = all_sprites, court_fields_group
 CourtTile.groups = all_sprites, court_tiles_group
 CommandTile.groups = all_sprites, command_tiles_group
 ActivePlayers.groups = all_sprites, players_group
+Explode.groups = all_sprites, special_effects_group
 
 # Set layer priority
 CourtField._layer = 1
 CourtTile._layer = 2
 CommandTile._layer = 3
 ActivePlayers._layer = 4
+Explode._layer = 5
 
 # Initialise each group of sprites
 from court import init_all_court_fields, init_all_court_tiles, init_all_command_tiles
@@ -63,9 +67,9 @@ while i:
     players_group.update_render()
     #players_group.update()
 
-    #all_sprites.update()
+    all_sprites.update()
     all_sprites.draw(play_surface)
 
     pygame.display.flip()
 
-    #time.sleep(2.0)
+    time.sleep(0.1)

@@ -36,3 +36,7 @@ FORCE_OF_GRAVITY = 9.81 # 9.81 pixels / s^2
 # TEAMS
 T_SIZE = 2
 W_SIZE = 1
+
+# ACTIONS
+ACTIONS = {}
+ACTIONS['M'] = ('RIGHT','LEFT','UP','DOWN')

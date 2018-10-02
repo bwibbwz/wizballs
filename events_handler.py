@@ -14,22 +14,31 @@ def process_events(events, player_group):
             if event.key == pygame.K_RIGHT or event.key == ord('d'):
                 l.info('Key pressed: RIGHT')
                 sprite = [s for s in player_group if s.selected]
-                sprite[0].update('RIGHT')
+                if sprite:
+                    sprite[0].update('RIGHT')
             if event.key == pygame.K_LEFT or event.key == ord('a'):
                 l.info('Key pressed: LEFT')
                 sprite = [s for s in player_group if s.selected]
-                sprite[0].update('LEFT')
+                if sprite:
+                    sprite[0].update('LEFT')
             if event.key == pygame.K_DOWN or event.key == ord('s'):
                 l.info('Key pressed: DOWN')
                 sprite = [s for s in player_group if s.selected]
-                sprite[0].update('DOWN')
+                if sprite:
+                    sprite[0].update('DOWN')
             if event.key == pygame.K_UP or event.key == ord('w'):
                 l.info('Key pressed: UP')
                 sprite = [s for s in player_group if s.selected]
-                sprite[0].update('UP')
+                if sprite:
+                    sprite[0].update('UP')
             if event.key == pygame.K_ESCAPE:
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
                 l.info('Key pressed: ESCAPE')
+            if event.key == pygame.K_SPACE:
+                l.info('Key pressed: EXPLODE')
+                sprite = [s for s in player_group if s.selected]
+                if sprite:
+                    sprite[0].update('EXPLODE')
         elif event.type == pygame.MOUSEBUTTONUP:
             l.info('Mouse button pressed')
             pos = pygame.mouse.get_pos()

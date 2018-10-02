@@ -9,8 +9,6 @@ import random
 
 from conf import *
 
-actions = {'M': ('LEFT','RIGHT','UP','DOWN')}
-
 class WizBallsActions:
 
     def __init__(self):
@@ -24,8 +22,8 @@ class WizBallsActions:
         pass
 
     def update(self, action, pos=None):
-        # Movement - need more logical control here
-        if action in actions['M'] and pos is None:
+        # Movement - need more logical ctrl here
+        if action in ACTIONS['M'] and pos is None:
             return
 
         if action == 'RIGHT':
@@ -42,6 +40,8 @@ class WizBallsActions:
             self.has_moved = True
         # SFX
         elif action == 'EXPLODE':
-            pass
+            # A) need to 'kill' sprite
+            # B) need to spawn Fragment sprites
+            self.has_changed = True
 
         self.log.append(action)

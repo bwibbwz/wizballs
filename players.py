@@ -4,6 +4,7 @@ import pygame
 import random
 from groups import PlayersGroup
 from actions import WizBallsActions as WBA
+from special_effects import Explode
 
 from conf import *
 
@@ -32,6 +33,7 @@ class ActivePlayers(pygame.sprite.Sprite):
         self.orig_image = None
         self.c_idx      = None
         self.color      = None
+        self.speed = 1
         self.rect = None
 
     def update(self, action=None):
@@ -45,8 +47,12 @@ class ActivePlayers(pygame.sprite.Sprite):
             self.action.has_moved = False
 
         if self.action.has_changed:
-            self.update_render()
-            self.action.has_changed = False
+            self.kill()
+
+    def kill(self):
+        for _ in range(random.randint(3,15)):
+            Explode(self)
+            pygame.sprite.Sprite.kill(self)
 
     def update_render(self):
         if self.selected and self.image is not None:
@@ -139,34 +145,6 @@ def init_all_players(court_tiles_group):
         w.rect.topleft = \
           court_tiles_group.get_tile(w.grid_pos[0], 
                                      w.grid_pos[1]).rect.topleft
-
-
-class Fragments(pygame.sprite.Sprite):
-    """ Fragments of 'some' exploding sprite
-
-    """
-    gravity = True
-    def __init__(self,sprite):
-        pygame.sprite.Sprite.__init__(self, self.groups)
-        # Pos is a reference to the court grid (int, int)
-        self.pos = [0, 0]
-        self.pos[0] = sprite.pos[0]
-        self.pos[1] = sprite.pos[1]
-
-        # inherit color from exploding object
-        self.color = sprite.color
-
-        self.image = pygame.Surface((GRID_SIZE, GRID_SIZE))
-        # Set transparency? self.image.set_colorkey(CL_BG)
-        pygame.draw.circle(self.image, (random.randint(1,64),0,0),
-                                       (5,5),
-                                       random.randint(2,5))
-        self.image.convert_alpha()
-        self.rect = self.image.get_rect()
-        self.lifetime = 1 + random.randint(0,5) # max 6
-        self.maxspeed = sprite.speed * 2 
-
-        # Get 
 
 
 class Balls(pygame.sprite.Sprite):
