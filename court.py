@@ -32,7 +32,7 @@ class CourtTile(pygame.sprite.Sprite):
 
 class CommandTile(SelectableSprite):
     def __init__(self, name, symbol):
-        pygame.sprite.Sprite.__init__(self, self.groups)
+        SelectableSprite.__init__(self)
 
         font_type = pygame.font.SysFont('comicsansms', 72)
         text_surface = font_type.render(symbol, True, [0, 0, 0])
