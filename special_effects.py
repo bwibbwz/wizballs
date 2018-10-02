@@ -3,12 +3,11 @@ from conf import *
 
 class Explode(pygame.sprite.Sprite):
     """ Explosions which throw 'cubic' fragments around.  
-        The fragments fall down off the screen due to gravity.
-
+        The fragments fall down off the screen due to 'gravity'.
     """
     gravity = True
 
-    def __init__(self, sprite): # tuples
+    def __init__(self, sprite):
         #
         pygame.sprite.Sprite.__init__(self, self.groups)
 
@@ -17,7 +16,7 @@ class Explode(pygame.sprite.Sprite):
 
         self.image = pygame.Surface([random.randint(5,GRID_SIZE/2), 
                                      random.randint(5,GRID_SIZE/2)])
-        #
+        # Color
         self.image.fill(sprite.color)
         self.image.set_alpha(225) # Start slightly faded
 
@@ -36,7 +35,7 @@ class Explode(pygame.sprite.Sprite):
         
         # Fade out according to lifetime.
         self.image.set_alpha(225 - 224 / self.lifetime)
-        # need to get rect again?
+        # need to get rect again? Not sure this is working
 
         self.time += 1
 
@@ -48,4 +47,3 @@ class Explode(pygame.sprite.Sprite):
 
         self.rect.x += round(dx,0)
         self.rect.y += round(dy,0)
-

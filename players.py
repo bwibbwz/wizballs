@@ -13,7 +13,7 @@ def draw_rect(surface, outline_color, fill_color, border=6):
 
     """
     # assert surface has rect <---
-    # should have a more general option for 'fill_color'
+    # should have a more general option for 'fill_color' such as image from file
     surface.fill(outline_color)
     rect = surface.get_rect()
     surface.fill(fill_color, rect.inflate(-border, -border))
@@ -63,11 +63,10 @@ class ActivePlayers(pygame.sprite.Sprite):
     def update_rect(self):
         if self.rect is None:
             pass
-        # IF grid_pos has changed - match grid_pos
-        # to corresponding court rect
+        # match grid_pos to corresponding court rect
         x = self.grid_pos[0]
         y = self.grid_pos[1]
-        CourtTiles = ActivePlayers.groups[0].get_sprites_from_layer(2)
+        CourtTiles = ActivePlayers.groups[0].get_sprites_from_layer(CT_L)
         self.rect.topleft = \
              CourtTiles[0].groups[1].get_tile(x, y).rect.topleft
 
@@ -110,7 +109,6 @@ class Wizards(ActivePlayers):
 
         self.team = team
         self.tag = 'W' # Wizard
-        self.grid_pos = [0, 0] 
         self.c_idx = c_idx
 
         # Action and logics
@@ -123,28 +121,30 @@ def init_all_players(court_tiles_group):
          W          W
             P    P
 
-        FIELD: 20x10
-
     """
-    # Two teams of T_SIZE + W_SIZE
+    # FIELD
+    CourtTiles = ActivePlayers.groups[0].get_sprites_from_layer(CT_L)
+
     for team in [0, 1]:
         # Regular players
         for player in range(T_SIZE):
            c_idx = random.randint(0,5)
            p = BasketballPlayers(c_idx, GRID_SIZE, team)
-           p.grid_pos = [team * 10 + 3, player * 3 + 4]
+           p.grid_pos = [team * X_TILES / 2 + 3, 
+                         player * 4 + 3]
            # Inital position
            p.rect.topleft = \
-             court_tiles_group.get_tile(p.grid_pos[0], 
-                                        p.grid_pos[1]).rect.topleft
+            CourtTiles[0].groups[1].get_tile(p.grid_pos[0], 
+                                             p.grid_pos[1]).rect.topleft
 
         # Wizards
         c_idx = random.randint(0,2)
         w = Wizards(c_idx, GRID_SIZE, team)
-        w.grid_pos = [team * 10 + 3 * team + 2, 5]
+        w.grid_pos = [team * X_TILES / 2 + 3 * team + 2, 
+                      Y_TILES // 2]
         w.rect.topleft = \
-          court_tiles_group.get_tile(w.grid_pos[0], 
-                                     w.grid_pos[1]).rect.topleft
+         CourtTiles[0].groups[1].get_tile(w.grid_pos[0], 
+                                          w.grid_pos[1]).rect.topleft
 
 
 class Balls(pygame.sprite.Sprite):

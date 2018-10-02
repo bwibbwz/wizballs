@@ -41,11 +41,11 @@ ActivePlayers.groups = all_sprites, players_group
 Explode.groups = all_sprites, special_effects_group
 
 # Set layer priority
-CourtField._layer = 1
-CourtTile._layer = 2
-CommandTile._layer = 3
-ActivePlayers._layer = 4
-Explode._layer = 5
+CourtField._layer = BG_L
+CourtTile._layer = CT_L
+CommandTile._layer = CMD_L
+ActivePlayers._layer = AP_L
+Explode._layer = SFX_L
 
 # Initialise each group of sprites
 from court import init_all_court_fields, init_all_court_tiles, init_all_command_tiles
@@ -65,7 +65,6 @@ while i:
     play_surface.fill(CL_BG) 
     
     players_group.update_render()
-    #players_group.update()
 
     all_sprites.update()
     all_sprites.draw(play_surface)

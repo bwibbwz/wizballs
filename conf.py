@@ -6,7 +6,7 @@ GRID_SIZE = 20
 COURT_RATIO = 0.7
 
 X_TILES = 20
-Y_TILES = 10
+Y_TILES = 11
 
 # COLOURS
 CL_BG = [255, 255, 255]
@@ -40,3 +40,10 @@ W_SIZE = 1
 # ACTIONS
 ACTIONS = {}
 ACTIONS['M'] = ('RIGHT','LEFT','UP','DOWN')
+
+# LAYERS
+BG_L  = 1 # Background
+CT_L  = 2 # Court tiles
+CMD_L = 3 # Command tiles
+AP_L  = 4 # Active players
+SFX_L = 5 # Special effects
