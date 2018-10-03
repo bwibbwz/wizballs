@@ -74,8 +74,8 @@ def init_all_court_tiles(play_court):
             tile.rect.topleft = [(k + 1) * 1.1 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0], (j + 1) * 1.1 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[1]]
 
 def init_all_court_fields():
-    score_board = CourtField(CL_SCORE, (X_SIZE - 2 * GRID_SIZE, Y_SIZE - GRID_SIZE - COURT_RATIO * Y_SIZE), 'score_board')
-    score_board.rect.topleft = [GRID_SIZE, GRID_SIZE]
+    score_board = CourtField(CL_SCORE, (X_SIZE - GRID_SIZE, Y_SIZE - 0.5 * GRID_SIZE - COURT_RATIO * Y_SIZE), 'score_board')
+    score_board.rect.topleft = [0.5 * GRID_SIZE, 0.5 * GRID_SIZE]
     
-    play_court = CourtField(CL_COURT, (X_SIZE - 2 * GRID_SIZE, Y_SIZE - 2 * GRID_SIZE - (1.0 - COURT_RATIO) * Y_SIZE), 'play_court')
-    play_court.rect.bottomleft = [GRID_SIZE, Y_SIZE - GRID_SIZE]
+    play_court = CourtField(CL_COURT, (X_SIZE - GRID_SIZE, Y_SIZE - GRID_SIZE - (1.0 - COURT_RATIO) * Y_SIZE), 'play_court')
+    play_court.rect.bottomleft = [0.5 * GRID_SIZE, Y_SIZE - 0.5 * GRID_SIZE]
