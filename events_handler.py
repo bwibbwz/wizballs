@@ -59,5 +59,7 @@ def process_events(events, all_sprites, player_group, court_group):
             elif len(player_sprites_clicked) < 1:
                 player_group.deselect_all_sprites()
             else:
+                for s in player_sprites_clicked:
+                    s.update('EXPLODE')
                 pass
                 # NYI errors or features if multiple players are selected at once.
