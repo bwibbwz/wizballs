@@ -18,6 +18,7 @@ CL_SCORE = (80, 80, 80)
 CL_RED = (255, 0, 0)
 CL_ALPHA = (0, 0, 0, 0)
 CL_BLACK = (0, 0, 0)
+CL_RED_HL = (255, 0, 0, 50)
 
 # SKIN-TONES / TAG
 CL_STONE = {}
