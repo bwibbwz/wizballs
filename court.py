@@ -26,14 +26,18 @@ class CourtField(pygame.sprite.Sprite):
 
 class CourtTile(SelectableSprite):
     def __init__(self, x, y):
-        SelectableSprite.__init__(self)
+        SelectableSprite.__init__(self, main_color = CL_TILES, selected_color = CL_RED)
 
-        self.image = pygame.Surface([GRID_SIZE, GRID_SIZE])
-        self.image.fill(CL_TILES)
+        self.image = pygame.Surface([GRID_SIZE, GRID_SIZE], pygame.SRCALPHA)
+        self.image.fill(CL_COURT)
+        pygame.draw.rect(self.image, CL_TILES, (0, 0, GRID_SIZE - 1, GRID_SIZE - 1), 2)
         self.rect = self.image.get_rect()
 
         self.x = x
         self.y = y
+
+    def update(self):
+        pygame.draw.rect(self.image, self._active_color, (0, 0, GRID_SIZE - 1, GRID_SIZE - 1), 2)
 
 class CommandTile(SelectableSprite):
     def __init__(self, name, symbol):
