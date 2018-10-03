@@ -5,7 +5,7 @@ import logging as l
 from conf import *
 from groups import Group, CourtTilesGroup
 from sprites import SelectableSprite
-from graphics_functions import draw_border
+from graphics_functions import draw_border, copy_color
 
 class CourtLine(pygame.sprite.Sprite):
     def __init__(self):
@@ -35,9 +35,15 @@ class CourtTile(SelectableSprite):
         self.x = x
         self.y = y
 
+        # NB: Need a better way to do this.
+        self._fill_opacity = 50
+
         self.update()
 
     def update(self):
+        fill_color = copy_color(self._active_color)
+        fill_color.a = self._fill_opacity
+        self.image.fill(fill_color)
         draw_border(self.image, color = self._active_color)
 
 class CommandTile(SelectableSprite):
