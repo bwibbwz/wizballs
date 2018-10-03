@@ -25,6 +25,28 @@ class CourtField(pygame.sprite.Sprite):
             court_picture.set_alpha(BG_COURT_OPACITY)
             self.image.blit(court_picture, court_picture.get_rect())
 
+            pygame.draw.line(self.image, CL_BLACK, self.rect.midtop, self.rect.midbottom, 3)
+            pygame.draw.circle(self.image, CL_BLACK, self.rect.center, GRID_SIZE, 3)
+
+            penalty_box1 = pygame.draw.rect(self.image,
+                             CL_BLACK, 
+                             (self.rect.right - 4 * (GRID_SIZE + GRID_PADDING),
+                             self.rect.centery - 1.5 * (GRID_SIZE + GRID_PADDING),
+                             4 * (GRID_SIZE + GRID_PADDING),
+                             3 * (GRID_SIZE + GRID_PADDING)),
+                             3)
+            pygame.draw.circle(self.image, CL_BLACK, penalty_box1.midleft, GRID_SIZE, 3)
+
+            penalty_box2 = pygame.draw.rect(self.image,
+                             CL_BLACK, 
+                             (self.rect.left,
+                             self.rect.centery - 1.5 * (GRID_SIZE + GRID_PADDING),
+                             4 * (GRID_SIZE + GRID_PADDING),
+                             3 * (GRID_SIZE + GRID_PADDING)),
+                             3)
+            pygame.draw.circle(self.image, CL_BLACK, penalty_box2.midright, GRID_SIZE, 3)
+
+            
         self.name = name
 
 class CourtTile(SelectableSprite):
