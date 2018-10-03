@@ -18,6 +18,10 @@ class CourtField(pygame.sprite.Sprite):
         self.image.fill(color)
         self.rect = self.image.get_rect()
 
+        if name == 'play_court':
+            self.image = pygame.image.load('img/wood-floor-tileable.jpg').convert()
+            self.image = pygame.transform.scale(self.image, (self.rect.size))
+
         self.name = name
 
 class CourtTile(SelectableSprite):
@@ -67,7 +71,7 @@ def init_all_court_tiles(play_court):
     for k in range(X_TILES):
         for j in range(Y_TILES):
             tile = CourtTile(k, j)
-            tile.rect.topleft = [(k + 1) * 2 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0], (j + 1) * 2 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[1]]
+            tile.rect.topleft = [(k + 1) * 1.1 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0], (j + 1) * 1.1 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[1]]
 
 def init_all_court_fields():
     score_board = CourtField(CL_SCORE, (X_SIZE - 2 * GRID_SIZE, Y_SIZE - GRID_SIZE - COURT_RATIO * Y_SIZE), 'score_board')

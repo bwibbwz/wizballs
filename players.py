@@ -125,13 +125,13 @@ def init_all_players(court_tiles_group):
     # FIELD
     CourtTiles = ActivePlayers.groups[0].get_sprites_from_layer(CT_L)
 
-    for team in [0, 1]:
+    for team in [-1, 1]:
         # Regular players
         for player in range(T_SIZE):
            c_idx = random.randint(0,5)
            p = BasketballPlayers(c_idx, GRID_SIZE, team)
-           p.grid_pos = [team * X_TILES / 2 + 3, 
-                         player * 4 + 3]
+           p.grid_pos = [int(X_TILES / 2 + team), 
+                         int(Y_TILES / 2) - 1 + player * 2]
            # Inital position
            p.rect.topleft = \
             CourtTiles[0].groups[1].get_tile(p.grid_pos[0], 
@@ -140,8 +140,8 @@ def init_all_players(court_tiles_group):
         # Wizards
         c_idx = random.randint(0,2)
         w = Wizards(c_idx, GRID_SIZE, team)
-        w.grid_pos = [team * X_TILES / 2 + 3 * team + 2, 
-                      Y_TILES // 2]
+        w.grid_pos = [int(X_TILES / 2 + team * 3), 
+                      int(Y_TILES / 2)]
         w.rect.topleft = \
          CourtTiles[0].groups[1].get_tile(w.grid_pos[0], 
                                           w.grid_pos[1]).rect.topleft
