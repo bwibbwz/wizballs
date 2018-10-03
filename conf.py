@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import pygame
+
 # PIXEL SIZE OF PLAY AREA
 X_SIZE = 1000
 Y_SIZE = 720
@@ -11,29 +13,28 @@ X_TILES = 15
 Y_TILES = 7
 
 # COLOURS
-CL_BG = (255, 255, 255)
-CL_COURT = (205, 133, 0)
-CL_TILES = (155, 83, 50)
-CL_SCORE = (80, 80, 80)
-CL_RED = (255, 0, 0)
-CL_ALPHA = (0, 0, 0, 0)
-CL_BLACK = (0, 0, 0)
-CL_RED_HL = (255, 0, 0, 50)
+CL_BG    = pygame.Color(255, 255, 255)
+CL_COURT = pygame.Color(205, 133, 0)
+CL_TILES = pygame.Color(155, 83, 50)
+CL_SCORE = pygame.Color(80, 80, 80)
+CL_RED   = pygame.Color(255, 0, 0)
+CL_ALPHA = pygame.Color(0, 0, 0, 0)
+CL_BLACK = pygame.Color(0, 0, 0)
 
 # SKIN-TONES / TAG
 CL_STONE = {}
-CL_STONE[0] = [(234, 192, 134), 'C'] # cauc-brown
-CL_STONE[1] = [(255, 224, 189), 'C'] # cauc-pink
-CL_STONE[2] = [(255, 173, 96), 'C']  # cauc-orange
-CL_STONE[3] = [(156, 114, 72), 'A']  # afram-lbrown
-CL_STONE[4] = [(135, 97, 39), 'A']   # afram-mbrown
-CL_STONE[5] = [(111, 79, 29), 'A']   # afram-dbrown
+CL_STONE[0] = [pygame.Color(234, 192, 134), 'C'] # cauc-brown
+CL_STONE[1] = [pygame.Color(255, 224, 189), 'C'] # cauc-pink
+CL_STONE[2] = [pygame.Color(255, 173, 96), 'C']  # cauc-orange
+CL_STONE[3] = [pygame.Color(156, 114, 72), 'A']  # afram-lbrown
+CL_STONE[4] = [pygame.Color(135, 97, 39), 'A']   # afram-mbrown
+CL_STONE[5] = [pygame.Color(111, 79, 29), 'A']   # afram-dbrown
 
 # WIZ-TONES
 CL_WTONE = {}
-CL_WTONE[0] = (255, 0, 255)  # wiz-magenta
-CL_WTONE[1] = (138, 43, 226) # wiz-violet
-CL_WTONE[2] = (75, 0, 130)   # wiz-indigo
+CL_WTONE[0] = pygame.Color(255, 0, 255)  # wiz-magenta
+CL_WTONE[1] = pygame.Color(138, 43, 226) # wiz-violet
+CL_WTONE[2] = pygame.Color(75, 0, 130)   # wiz-indigo
 
 # Physics
 FORCE_OF_GRAVITY = 9.81 # 9.81 pixels / s^2
