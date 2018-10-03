@@ -10,7 +10,7 @@ class Group(pygame.sprite.Group):
 
 class SingleSelectableSpriteGroup(Group):
     def __init__(self):
-        pygame.sprite.Group.__init__(self)
+        Group.__init__(self)
 
     def select_sprite(self, sprite):
         sprite.select()
