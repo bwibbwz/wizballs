@@ -47,7 +47,6 @@ class CourtTile(SelectableSprite):
 class BasketTile(CourtTile):
     def __init__(self, x, y):
         CourtTile.__init__(self, x, y)
-        print('Basket', x, y)
 
     def update(self):
         self.image.fill(copy_color(self._active_color, alpha = 150))
