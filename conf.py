@@ -1,20 +1,44 @@
 #!/usr/bin/env python3
 
 import pygame
+import math
 
-# PIXEL SIZE OF PLAY AREA
-X_SIZE = 1000
-Y_SIZE = 720
-GRID_SIZE = 50
+# SIZE OF PLAY AREA
+X_SIZE = 1079
 COURT_RATIO = 0.7
 
 # AMOUNT OF TILES
 X_TILES = 15
 Y_TILES = 7
 
+# PADDING
+GRID_PADDING = 0.1
+
+# CALCULATE THE GRID_SIZE
+GRID_SIZE = round(X_SIZE / (X_TILES * (1 + GRID_PADDING) + (GRID_PADDING)))
+
+# ITERATE TO FIND CORRECT X_SIZE
+#GS = X_SIZE / (X_TILES * (1 + GRID_PADDING) + (GRID_PADDING))
+#GRID_SIZE = round(GS)
+#while abs(GRID_SIZE - GS) > 0.05:
+#    X_SIZE += 1
+#    GS = X_SIZE / (X_TILES * (1 + GRID_PADDING) + (GRID_PADDING))
+#    GRID_SIZE = round(GS)
+#print('Optimal X_SIZE: ', X_SIZE)
+
+# SET Y_SIZEs
+Y_COURT_SIZE = round(GRID_SIZE * (Y_TILES * (1 + GRID_PADDING) + GRID_PADDING))
+Y_SCORE_SIZE = round(Y_COURT_SIZE * (1 - COURT_RATIO))
+Y_SIZE = Y_COURT_SIZE + Y_SCORE_SIZE
+
+# SET OPACITIES
+BG_COURT_OPACITY = 200
+COURT_TILE_OPACITY = 50
+BASKET_TILE_OPACITY = 150
+
 # COLOURS
 CL_BG    = pygame.Color(255, 255, 255)
-CL_COURT = pygame.Color(205, 133, 0)
+CL_COURT = pygame.Color(218, 173, 124) # For image 'img/wood-floor-tileable.jpg'
 CL_TILES = pygame.Color(155, 83, 50)
 CL_SCORE = pygame.Color(80, 80, 80)
 CL_RED   = pygame.Color(255, 0, 0)
