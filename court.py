@@ -46,6 +46,17 @@ class CourtTile(SelectableSprite):
         self.image.fill(fill_color)
         draw_border(self.image, color = self._active_color)
 
+
+class BasketTile(CourtTile):
+    def __init__(self, x, y):
+        CourtTile.__init__(self, x, y)
+        print('Basket', x, y)
+
+    def update(self):
+        self.image.fill(copy_color(self._active_color, alpha = 150))
+        draw_border(self.image, color = self._active_color)
+        pygame.draw.circle(self.image, CL_BLACK, (int(GRID_SIZE / 2), int(GRID_SIZE / 2)), int(GRID_SIZE / 3), 3)
+
 class CommandTile(SelectableSprite):
     def __init__(self, name, symbol):
         SelectableSprite.__init__(self)
@@ -81,7 +92,11 @@ def init_all_command_tiles(score_board):
 def init_all_court_tiles(play_court):
     for k in range(X_TILES):
         for j in range(Y_TILES):
-            tile = CourtTile(k, j)
+            if j == int(Y_TILES / 2) and (k == 0 or k == X_TILES - 1):
+                # Set up the special BasketTiles
+                tile = BasketTile(k, j)
+            else:
+                tile = CourtTile(k, j)
             tile.rect.topleft = [(k + 1) * 1.1 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0], (j + 1) * 1.1 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[1]]
 
 def init_all_court_fields():
