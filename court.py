@@ -41,9 +41,7 @@ class CourtTile(SelectableSprite):
         self.update()
 
     def update(self):
-        fill_color = copy_color(self._active_color)
-        fill_color.a = self._fill_opacity
-        self.image.fill(fill_color)
+        self.image.fill(copy_color(self._active_color, alpha = self._fill_opacity))
         draw_border(self.image, color = self._active_color)
 
 
