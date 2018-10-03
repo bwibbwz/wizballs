@@ -63,7 +63,7 @@ i = True
 
 # Main run loop
 while i:
-    process_events(pygame.event.get(), players_sssg, all_sprites, court_sssg)
+    process_events(pygame.event.get(), all_sprites, players_sssg, court_sssg)
 
     play_surface.fill(CL_BG) 
     

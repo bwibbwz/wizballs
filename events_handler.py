@@ -4,7 +4,7 @@ import pygame
 import logging as l
 from basic_functions import quit_game
 
-def process_events(events, player_group, all_sprites, court_group):
+def process_events(events, all_sprites, player_group, court_group):
     for event in events:
         l.debug(event)
         if event.type == pygame.QUIT:
