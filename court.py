@@ -20,8 +20,10 @@ class CourtField(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         if name == 'play_court':
-            self.image = pygame.image.load('img/wood-floor-tileable.jpg').convert()
-            self.image = pygame.transform.scale(self.image, (self.rect.size))
+            court_picture = pygame.image.load('img/wood-floor-tileable.jpg').convert()
+            court_picture = pygame.transform.scale(court_picture, (self.rect.size))
+            court_picture.set_alpha(BG_COURT_OPACITY)
+            self.image.blit(court_picture, court_picture.get_rect())
 
         self.name = name
 
@@ -35,8 +37,7 @@ class CourtTile(SelectableSprite):
         self.x = x
         self.y = y
 
-        # NB: Need a better way to do this.
-        self._fill_opacity = 50
+        self._fill_opacity = COURT_TILE_OPACITY
 
         self.update()
 
@@ -49,7 +50,7 @@ class BasketTile(CourtTile):
         CourtTile.__init__(self, x, y)
 
     def update(self):
-        self.image.fill(copy_color(self._active_color, alpha = 150))
+        self.image.fill(copy_color(self._active_color, alpha = BASKET_TILE_OPACITY))
         draw_border(self.image, color = self._active_color)
         # BUG: The basket itself should be drawn on top of the player sprite. 
         pygame.draw.circle(self.image, CL_BLACK, (int(GRID_SIZE / 2), int(GRID_SIZE / 2)), int(GRID_SIZE / 3), 3)
@@ -94,11 +95,12 @@ def init_all_court_tiles(play_court):
                 tile = BasketTile(k, j)
             else:
                 tile = CourtTile(k, j)
-            tile.rect.topleft = [(k + 1) * 1.1 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0], (j + 1) * 1.1 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[1]]
+            tile.rect.topleft = ((k + 1) * (1 + GRID_PADDING) * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0],
+                                 (j + 1) * (1 + GRID_PADDING) * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[1])
 
 def init_all_court_fields():
-    score_board = CourtField(CL_SCORE, (X_SIZE - GRID_SIZE, Y_SIZE - 0.5 * GRID_SIZE - COURT_RATIO * Y_SIZE), 'score_board')
-    score_board.rect.topleft = [0.5 * GRID_SIZE, 0.5 * GRID_SIZE]
-    
-    play_court = CourtField(CL_COURT, (X_SIZE - GRID_SIZE, Y_SIZE - GRID_SIZE - (1.0 - COURT_RATIO) * Y_SIZE), 'play_court')
-    play_court.rect.bottomleft = [0.5 * GRID_SIZE, Y_SIZE - 0.5 * GRID_SIZE]
+    score_board = CourtField(CL_SCORE, (X_SIZE, Y_SCORE_SIZE), 'score_board')
+    score_board.rect.topleft = (0, 0)
+
+    play_court = CourtField(CL_COURT, (X_SIZE, Y_COURT_SIZE), 'play_court')
+    play_court.rect.topleft = score_board.rect.bottomleft
