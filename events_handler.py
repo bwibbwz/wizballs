@@ -4,7 +4,7 @@ import pygame
 import logging as l
 from basic_functions import quit_game
 
-def process_events(events, player_group, all_sprites):
+def process_events(events, player_group, all_sprites, court_group):
     for event in events:
         l.debug(event)
         if event.type == pygame.QUIT:
@@ -45,9 +45,21 @@ def process_events(events, player_group, all_sprites):
 
             all_sprites_clicked = [sprite for sprite in all_sprites if sprite.rect.collidepoint(pos)]
             player_sprites_clicked = [sprite for sprite in all_sprites_clicked if player_group.has(sprite)] # NB: Want to implement a way to detect a player without passing the player group as an argument.
+            court_sprites_clicked = [sprite for sprite in all_sprites_clicked if court_group.has(sprite)] # NB: Want to implement a way to detect a player without passing the player group as an argument.
+
+            if len(court_sprites_clicked) == 1:
+                court_sprites_clicked[0].select()
+            elif len(court_sprites_clicked) < 1:
+                # NB: This is a terrible implementation of deselection all the players but it'll have to do for now.
+                for c in court_group:
+                    c.deselect()
 
             if len(player_sprites_clicked) == 1:
                 player_sprites_clicked[0].select()
+            elif len(player_sprites_clicked) < 1:
+                # NB: This is a terrible implementation of deselection all the players but it'll have to do for now.
+                for p in player_group:
+                    p.deselect()
             else:
                 pass
                 # NYI errors or features if multiple players are selected at once.
