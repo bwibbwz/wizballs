@@ -23,9 +23,9 @@ class ActivePlayers(SelectableSprite):
     """ Main class for basketball players and wizards 
 
     """
-    def __init__(self):
+    def __init__(self, color):
         #
-        SelectableSprite.__init__(self)
+        SelectableSprite.__init__(self, main_color = CL_ALPHA, selected_color = CL_BLACK)
 
         self.grid_pos = [0, 0]
         self.action   = WBA()
@@ -35,6 +35,11 @@ class ActivePlayers(SelectableSprite):
         self.color      = None
         self.speed = 1
         self.rect = None
+
+        self.color = color
+        self.image = pygame.Surface([GRID_SIZE, GRID_SIZE], pygame.SRCALPHA)
+        self.image.fill(self.color)
+        pygame.draw.rect(self.image, self._active_color, (0, 0, GRID_SIZE - 1, GRID_SIZE - 1), 2)
 
     def update(self, action=None):
         if action is None:
@@ -55,10 +60,8 @@ class ActivePlayers(SelectableSprite):
             pygame.sprite.Sprite.kill(self)
 
     def update_render(self):
-        if self.is_selected() and self.image is not None:
-            draw_rect(self.image, CL_RED, self.color)
-        else:
-            self.image = self.orig_image.copy() 
+        # This takes care of drawing the border in the correct color
+        pygame.draw.rect(self.image, self._active_color, (0, 0, GRID_SIZE - 1, GRID_SIZE - 1), 2)
 
     def update_rect(self):
         if self.rect is None:
@@ -73,13 +76,9 @@ class ActivePlayers(SelectableSprite):
 class BasketballPlayers(ActivePlayers):
    # Constructor for active players
 
-   def __init__(self, c_idx, grid_size, team):
+   def __init__(self, c_idx, team):
        #
-       ActivePlayers.__init__(self)
-
-       self.color = CL_STONE[c_idx][0]
-       self.image = pygame.Surface([grid_size, grid_size])
-       self.image.fill(self.color)
+       ActivePlayers.__init__(self, CL_STONE[c_idx][0])
 
        # Hold on to original image
        self.orig_image  = self.image.copy()
@@ -95,13 +94,9 @@ class BasketballPlayers(ActivePlayers):
 class Wizards(ActivePlayers):
     # Constructor for active wizards
 
-    def __init__(self, c_idx, grid_size, team):
+    def __init__(self, c_idx, team):
         #
-        ActivePlayers.__init__(self)
-
-        self.color = CL_WTONE[c_idx] 
-        self.image = pygame.Surface([grid_size, grid_size])
-        self.image.fill(self.color)
+        ActivePlayers.__init__(self, CL_WTONE[c_idx])
 
         # Hold on to original image
         self.orig_image = self.image.copy()
@@ -129,7 +124,7 @@ def init_all_players(court_tiles_group):
         # Regular players
         for player in range(T_SIZE):
            c_idx = random.randint(0,5)
-           p = BasketballPlayers(c_idx, GRID_SIZE, team)
+           p = BasketballPlayers(c_idx, team)
            p.grid_pos = [int(X_TILES / 2 + team), 
                          int(Y_TILES / 2) - 1 + player * 2]
            # Inital position
@@ -139,7 +134,7 @@ def init_all_players(court_tiles_group):
 
         # Wizards
         c_idx = random.randint(0,2)
-        w = Wizards(c_idx, GRID_SIZE, team)
+        w = Wizards(c_idx, team)
         w.grid_pos = [int(X_TILES / 2 + team * 3), 
                       int(Y_TILES / 2)]
         w.rect.topleft = \
@@ -150,11 +145,11 @@ def init_all_players(court_tiles_group):
 class Balls(pygame.sprite.Sprite):
     # Constructor for balls
 
-    def __init__(self, radius, grid_size):
+    def __init__(self, radius):
         #
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.Surface([grid_size, grid_size])
+        self.image = pygame.Surface([GRID_SIZE, GRID_SIZE])
         self.image.fill(CL_BG) 
         self.rect  = pygame.draw.circle(self.image, (0,0,0), (10, 10), radius)
 
