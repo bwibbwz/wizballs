@@ -44,7 +44,6 @@ class CourtTile(SelectableSprite):
         self.image.fill(copy_color(self._active_color, alpha = self._fill_opacity))
         draw_border(self.image, color = self._active_color)
 
-
 class BasketTile(CourtTile):
     def __init__(self, x, y):
         CourtTile.__init__(self, x, y)
@@ -53,6 +52,7 @@ class BasketTile(CourtTile):
     def update(self):
         self.image.fill(copy_color(self._active_color, alpha = 150))
         draw_border(self.image, color = self._active_color)
+        # BUG: The basket itself should be drawn on top of the player sprite. 
         pygame.draw.circle(self.image, CL_BLACK, (int(GRID_SIZE / 2), int(GRID_SIZE / 2)), int(GRID_SIZE / 3), 3)
 
 class CommandTile(SelectableSprite):
