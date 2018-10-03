@@ -31,13 +31,14 @@ players_group = PlayersGroup()
 special_effects_group = Group()
 players_sssg = SingleSelectableSpriteGroup()
 command_sssg = SingleSelectableSpriteGroup()
+court_sssg = SingleSelectableSpriteGroup()
 
 # Assign Sprites to classes
 from court import CourtTile, CourtField, CommandTile
 from players import ActivePlayers
 from special_effects import Explode
 CourtField.groups = all_sprites, court_fields_group
-CourtTile.groups = all_sprites, court_tiles_group
+CourtTile.groups = all_sprites, court_tiles_group, court_sssg
 CommandTile.groups = all_sprites, command_tiles_group, command_sssg
 ActivePlayers.groups = all_sprites, players_group, players_sssg
 Explode.groups = all_sprites, special_effects_group
@@ -62,12 +63,12 @@ i = True
 
 # Main run loop
 while i:
-    process_events(pygame.event.get(), players_group, all_sprites)
+    process_events(pygame.event.get(), players_group, all_sprites, court_tiles_group)
 
     play_surface.fill(CL_BG) 
     
     players_group.update_render()
-
+    
     all_sprites.update()
     all_sprites.draw(play_surface)
 
