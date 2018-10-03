@@ -5,6 +5,7 @@ import logging as l
 from conf import *
 from groups import Group, CourtTilesGroup
 from sprites import SelectableSprite
+from graphics_functions import draw_border
 
 class CourtLine(pygame.sprite.Sprite):
     def __init__(self):
@@ -29,14 +30,15 @@ class CourtTile(SelectableSprite):
         SelectableSprite.__init__(self, main_color = CL_TILES, selected_color = CL_RED)
 
         self.image = pygame.Surface([GRID_SIZE, GRID_SIZE], pygame.SRCALPHA)
-        pygame.draw.rect(self.image, CL_TILES, (0, 0, GRID_SIZE - 1, GRID_SIZE - 1), 2)
         self.rect = self.image.get_rect()
 
         self.x = x
         self.y = y
 
+        self.update()
+
     def update(self):
-        pygame.draw.rect(self.image, self._active_color, (0, 0, GRID_SIZE - 1, GRID_SIZE - 1), 2)
+        draw_border(self.image, color = self._active_color)
 
 class CommandTile(SelectableSprite):
     def __init__(self, name, symbol):

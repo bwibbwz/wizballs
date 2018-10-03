@@ -6,6 +6,7 @@ from sprites import SelectableSprite
 from groups import PlayersGroup
 from actions import WizBallsActions as WBA
 from special_effects import Explode
+from graphics_functions import draw_border
 
 from conf import *
 
@@ -39,7 +40,9 @@ class ActivePlayers(SelectableSprite):
         self.color = color
         self.image = pygame.Surface([GRID_SIZE, GRID_SIZE], pygame.SRCALPHA)
         self.image.fill(self.color)
-        pygame.draw.rect(self.image, self._active_color, (0, 0, GRID_SIZE - 1, GRID_SIZE - 1), 2)
+
+        self.update_render()
+        
 
     def update(self, action=None):
         if action is None:
@@ -61,7 +64,7 @@ class ActivePlayers(SelectableSprite):
 
     def update_render(self):
         # This takes care of drawing the border in the correct color
-        pygame.draw.rect(self.image, self._active_color, (0, 0, GRID_SIZE - 1, GRID_SIZE - 1), 2)
+        draw_border(self.image, color = self._active_color)
 
     def update_rect(self):
         if self.rect is None:
