@@ -41,8 +41,7 @@ class ActivePlayers(SelectableSprite):
         self.image = pygame.Surface([GRID_SIZE, GRID_SIZE], pygame.SRCALPHA)
         self.image.fill(self.color)
 
-        self.update_render()
-        
+        self.update()
 
     def update(self, action=None):
         if action is None:
@@ -57,14 +56,13 @@ class ActivePlayers(SelectableSprite):
         if self.action.has_changed:
             self.kill()
 
+        # This takes care of drawing the border in the correct color
+        draw_border(self.image, color = self._active_color)
+
     def kill(self):
         for _ in range(random.randint(6,15)):
             Explode(self)
             pygame.sprite.Sprite.kill(self)
-
-    def update_render(self):
-        # This takes care of drawing the border in the correct color
-        draw_border(self.image, color = self._active_color)
 
     def update_rect(self):
         if self.rect is None:

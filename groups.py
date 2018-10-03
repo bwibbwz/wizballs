@@ -13,11 +13,9 @@ class SingleSelectableSpriteGroup(Group):
         pygame.sprite.Group.__init__(self)
 
     def select_sprite(self, sprite):
-        for s in self.sprites():
-            if s == sprite:
-                sprite.select()
-            else:
-                s.deselect()
+        sprite.select()
+        self.deselect_all_other_sprites(sprite)
+        # NB: Should raise an error if the sprite is not found.
 
     def deselect_sprite(self, sprite):
         sprite.deselect()
@@ -45,11 +43,6 @@ class PlayersGroup(pygame.sprite.OrderedUpdates):
     def __init__(self):
         #
         pygame.sprite.OrderedUpdates.__init__(self)
-
-    def update_render(self):
-        #
-        for s in self.sprites():
-            s.update_render()
 
 class SpecialEffectsGroup(pygame.sprite.Group):
     """ Group to handle special effects (explosions)

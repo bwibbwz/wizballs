@@ -67,8 +67,6 @@ while i:
 
     play_surface.fill(CL_BG) 
     
-    players_group.update_render()
-    
     all_sprites.update()
     all_sprites.draw(play_surface)
 
