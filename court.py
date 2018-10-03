@@ -29,7 +29,6 @@ class CourtTile(SelectableSprite):
         SelectableSprite.__init__(self, main_color = CL_TILES, selected_color = CL_RED)
 
         self.image = pygame.Surface([GRID_SIZE, GRID_SIZE], pygame.SRCALPHA)
-        self.image.fill(CL_COURT)
         pygame.draw.rect(self.image, CL_TILES, (0, 0, GRID_SIZE - 1, GRID_SIZE - 1), 2)
         self.rect = self.image.get_rect()
 
