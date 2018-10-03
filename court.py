@@ -41,7 +41,7 @@ class CommandTile(SelectableSprite):
 
         font_type = pygame.font.SysFont('comicsansms', 72)
         text_surface = font_type.render(symbol, True, [0, 0, 0])
-        text_surface = pygame.transform.scale(text_surface, [2 * GRID_SIZE, 2 * GRID_SIZE])
+        text_surface = pygame.transform.scale(text_surface, [GRID_SIZE, GRID_SIZE])
 
         self.image = text_surface
         self.rect = text_surface.get_rect()
@@ -55,17 +55,17 @@ def init_all_command_tiles(score_board):
     for name, symbol in commands.items():
         tile = CommandTile(name, symbol)
         if name == 'left':
-            tile.rect.midleft = [2 * GRID_SIZE + ref_pos[0], ref_pos[1]]
+            tile.rect.midleft = [1 * GRID_SIZE + ref_pos[0], ref_pos[1]]
         elif name == 'right':
-            tile.rect.midleft = [6 * GRID_SIZE + ref_pos[0], ref_pos[1]]
+            tile.rect.midleft = [3 * GRID_SIZE + ref_pos[0], ref_pos[1]]
         elif name == 'up':
-            tile.rect.midleft = [4 * GRID_SIZE + ref_pos[0], -2 * GRID_SIZE + ref_pos[1]]
+            tile.rect.midleft = [2 * GRID_SIZE + ref_pos[0], -1 * GRID_SIZE + ref_pos[1]]
         elif name == 'down':
-            tile.rect.midleft = [4 * GRID_SIZE + ref_pos[0], 2 * GRID_SIZE + ref_pos[1]]
+            tile.rect.midleft = [2 * GRID_SIZE + ref_pos[0], 1 * GRID_SIZE + ref_pos[1]]
         elif name == 'submit':
-            tile.rect.midleft = [11 * GRID_SIZE, ref_pos[1]]
+            tile.rect.midleft = [6 * GRID_SIZE, ref_pos[1]]
         elif name == 'endturn':
-            tile.rect.midleft = [15 * GRID_SIZE, ref_pos[1]]
+            tile.rect.midleft = [8 * GRID_SIZE, ref_pos[1]]
 
 def init_all_court_tiles(play_court):
     for k in range(X_TILES):
