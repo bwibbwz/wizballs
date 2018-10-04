@@ -35,7 +35,7 @@ class GridPosition():
     
     @pos.setter
     def pos(self, pos):
-        if pos[0] >= self._max_x or pos[1] >= self._max_y:
+        if pos[0] >= self._max_x or pos[1] >= self._max_y or pos[0] < 0 or pos[1] < 0:
             raise IndexError('(%i, %i) is outside the grid area' % (pos[0], pos[1]))
         self._x = pos[0]
         self._y = pos[1]
