@@ -43,6 +43,24 @@ class ActivePlayers(SelectableSprite):
 
         self.update()
 
+    def select(self):
+        super().select()
+        return
+        # The following code has NO effect at the moment but will be used in the future.
+        from groups import CourtTilesGroup
+        court_tiles_group = None
+        for group in self.groups:
+            if group.__class__ == pygame.sprite.LayeredUpdates:
+                all_sprites = group
+                break
+        for s in all_sprites.sprites():
+            for g in s.groups:
+                if g.__class__ == CourtTilesGroup:
+                    court_tiles_group = g
+                    break
+        court_tiles_group.get_tile(self.grid_pos[0] + 1, self.grid_pos[1]).highlight()
+        court_tiles_group.get_tile(self.grid_pos[0] - 1, self.grid_pos[1]).highlight()
+
     def update(self, action=None):
         if action is None:
             pass
