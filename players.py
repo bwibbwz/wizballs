@@ -67,7 +67,6 @@ class ActivePlayers(SelectableSprite):
         if action is None:
             pass
         else:
-           print('players.py', self.pos.__class__)
            self.action.update(action, self.pos)
 
         if self.action.has_moved:
