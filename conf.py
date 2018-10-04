@@ -28,6 +28,7 @@ CL_COURT = pygame.Color(218, 173, 124) # For image 'img/wood-floor-tileable.jpg'
 CL_TILES = pygame.Color(155, 83, 50)
 CL_SCORE = pygame.Color(80, 80, 80)
 CL_RED   = pygame.Color(255, 0, 0)
+CL_BLUE  = pygame.Color(0, 0, 255)
 CL_ALPHA = pygame.Color(0, 0, 0, 0)
 CL_BLACK = pygame.Color(0, 0, 0)
 
