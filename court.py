@@ -44,6 +44,14 @@ class GridPosition():
         self.pos = self.x + dx, self.y + dy 
         return self.pos
 
+    def __getitem__(self, key):
+        if key == 0:
+            return self.x
+        elif key == 1:
+            return self.y
+        else:
+            raise IndexError('There are only 2 values possible, 0 and 1 (%i was given)' % key)
+
     def __call__(self):
         return self.pos
 
@@ -58,6 +66,7 @@ class GridPosition():
 
     def __eq__(self, pos):
         return self.x == pos[0] and self.y == pos[1]
+
 
 class CourtLine(pygame.sprite.Sprite):
     def __init__(self):
