@@ -7,6 +7,58 @@ from groups import Group, CourtTilesGroup
 from sprites import SelectableSprite, HighlightableSprite
 from graphics_functions import draw_border, copy_color
 
+class GridPosition():
+    def __init__(self, x, y, max_x=X_TILES, max_y=Y_TILES):
+        self._max_x = max_x
+        self._max_y = max_y
+        self.pos = x, y
+
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, x):
+        self.pos = x, self.y
+
+    @property
+    def y(self):
+        return self._y
+
+    @y.setter
+    def y(self, y):
+        self.pos = self.x, y
+
+    @property
+    def pos(self):
+        return self._x, self._y
+    
+    @pos.setter
+    def pos(self, pos):
+        if pos[0] >= self._max_x or pos[1] >= self._max_y:
+            raise IndexError('(%i, %i) is outside the grid area' % (pos[0], pos[1]))
+        self._x = pos[0]
+        self._y = pos[1]
+
+    def move(self, dx, dy):
+        self.pos = self.x + dx, self.y + dy 
+        return self.pos
+
+    def __call__(self):
+        return self.pos
+
+    def __str__(self):
+        return str(self.pos)
+
+    def __add__(self, dpos):
+        self.move(dpos[0], dpos[1])
+
+    def __sub__(self, dpos):
+        self.__add__((-dpos[0], -dpos[1]))
+
+    def __eq__(self, pos):
+        return self.x == pos[0] and self.y == pos[1]
+
 class CourtLine(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self, self.groups)
