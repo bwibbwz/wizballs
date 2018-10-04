@@ -4,7 +4,7 @@ import pygame
 import logging as l
 from conf import *
 from groups import Group, CourtTilesGroup
-from sprites import SelectableSprite
+from sprites import SelectableSprite, HighlightableSprite
 from graphics_functions import draw_border, copy_color
 
 class CourtLine(pygame.sprite.Sprite):
@@ -50,8 +50,9 @@ class CourtField(pygame.sprite.Sprite):
             
         self.name = name
 
-class CourtTile(SelectableSprite):
+class CourtTile(SelectableSprite, HighlightableSprite):
     def __init__(self, x, y):
+        HighlightableSprite.__init__(self, main_color = CL_TILES, highlighted_color = CL_BLUE)
         SelectableSprite.__init__(self, main_color = CL_TILES, selected_color = CL_RED)
 
         self.image = pygame.Surface([GRID_SIZE, GRID_SIZE], pygame.SRCALPHA)
