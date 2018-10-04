@@ -33,8 +33,14 @@ class CourtTilesGroup(Group):
     def __init__(self):
         Group.__init__(self)
 
-    def get_tile(self, x, y):
-        return [tile for tile in self.sprites() if tile.pos == (x, y)][0]
+    def get_tile(self, pos):
+        found_tiles = [tile for tile in self.sprites() if tile.pos == pos]
+        if len(found_tiles) == 1:
+            return found_tiles[0]
+        elif len(found_tiles) > 0:
+            raise IndexError('Multiple tiles were found. This should not happen.')
+        else:
+            raise IndexError('No tiles were found with index (%i, %i).' % (pos[0], pos[1]))
 
 class PlayersGroup(pygame.sprite.OrderedUpdates):
     # Group to handle player sprites
