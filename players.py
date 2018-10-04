@@ -7,6 +7,7 @@ from groups import PlayersGroup
 from actions import WizBallsActions as WBA
 from special_effects import Explode
 from graphics_functions import draw_border
+from court import GridPosition
 
 from conf import *
 
@@ -24,11 +25,12 @@ class ActivePlayers(SelectableSprite):
     """ Main class for basketball players and wizards 
 
     """
-    def __init__(self, color):
+    def __init__(self, color, x=0, y=0):
         #
         SelectableSprite.__init__(self, main_color = CL_ALPHA, selected_color = CL_BLACK)
 
-        self.grid_pos = [0, 0]
+        self.pos = GridPosition(x, y)
+
         self.action   = WBA()
         self.image      = None
         self.orig_image = None
@@ -58,14 +60,15 @@ class ActivePlayers(SelectableSprite):
                 if g.__class__ == CourtTilesGroup:
                     court_tiles_group = g
                     break
-        court_tiles_group.get_tile(self.grid_pos[0] + 1, self.grid_pos[1]).highlight()
-        court_tiles_group.get_tile(self.grid_pos[0] - 1, self.grid_pos[1]).highlight()
+        court_tiles_group.get_tile(self.pos + (1, 0)).highlight()
+        court_tiles_group.get_tile(self.pos - (1, 0)).highlight()
 
     def update(self, action=None):
         if action is None:
             pass
         else:
-           self.action.update(action, self.grid_pos)
+           print('players.py', self.pos.__class__)
+           self.action.update(action, self.pos)
 
         if self.action.has_moved:
             self.update_rect()
@@ -86,11 +89,11 @@ class ActivePlayers(SelectableSprite):
         if self.rect is None:
             pass
         # match grid_pos to corresponding court rect
-        x = self.grid_pos[0]
-        y = self.grid_pos[1]
+        x = self.pos.x
+        y = self.pos.y
         CourtTiles = ActivePlayers.groups[0].get_sprites_from_layer(CT_L)
         self.rect.topleft = \
-             CourtTiles[0].groups[1].get_tile(x, y).rect.topleft
+             CourtTiles[0].groups[1].get_tile(self.pos).rect.topleft
 
 class BasketballPlayers(ActivePlayers):
    # Constructor for active players
@@ -144,21 +147,17 @@ def init_all_players(court_tiles_group):
         for player in range(T_SIZE):
            c_idx = random.randint(0,5)
            p = BasketballPlayers(c_idx, team)
-           p.grid_pos = [int(X_TILES / 2 + team), 
-                         int(Y_TILES / 2) - 1 + player * 2]
+           p.pos.pos = (int(X_TILES / 2 + team), int(Y_TILES / 2) - 1 + player * 2)
            # Inital position
            p.rect.topleft = \
-            CourtTiles[0].groups[1].get_tile(p.grid_pos[0], 
-                                             p.grid_pos[1]).rect.topleft
+            CourtTiles[0].groups[1].get_tile(p.pos).rect.topleft
 
         # Wizards
         c_idx = random.randint(0,2)
         w = Wizards(c_idx, team)
-        w.grid_pos = [int(X_TILES / 2 + team * 3), 
-                      int(Y_TILES / 2)]
+        w.pos.pos = (int(X_TILES / 2 + team * 3), int(Y_TILES / 2))
         w.rect.topleft = \
-         CourtTiles[0].groups[1].get_tile(w.grid_pos[0], 
-                                          w.grid_pos[1]).rect.topleft
+         CourtTiles[0].groups[1].get_tile(w.pos).rect.topleft
 
 
 class Balls(pygame.sprite.Sprite):
