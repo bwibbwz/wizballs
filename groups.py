@@ -34,6 +34,8 @@ class CourtTilesGroup(Group):
         Group.__init__(self)
 
     def get_tile(self, pos):
+        if pos[0] < 0 or pos[1] < 0:
+            raise IndexError('Negative numbers are not allowed when addressing the tile grid.')
         found_tiles = [tile for tile in self.sprites() if tile.pos == pos]
         if len(found_tiles) == 1:
             return found_tiles[0]
