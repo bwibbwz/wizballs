@@ -27,6 +27,7 @@ class CourtField(pygame.sprite.Sprite):
 
             pygame.draw.line(self.image, CL_BLACK, self.rect.midtop, self.rect.midbottom, 3)
             pygame.draw.circle(self.image, CL_BLACK, self.rect.center, GRID_SIZE, 3)
+            pygame.draw.circle(self.image, CL_BLACK, self.rect.center, GRID_SIZE // 3, 3)
 
             penalty_box1 = pygame.draw.rect(self.image,
                              CL_BLACK, 
