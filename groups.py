@@ -34,8 +34,7 @@ class CourtTilesGroup(Group):
         Group.__init__(self)
 
     def get_tile(self, x, y):
-        x_sprites = [sprite for sprite in self.sprites() if sprite.x == x]
-        return [sprite for sprite in x_sprites if sprite.y == y][0]
+        return [tile for tile in self.sprites() if tile.pos == (x, y)][0]
 
 class PlayersGroup(pygame.sprite.OrderedUpdates):
     # Group to handle player sprites

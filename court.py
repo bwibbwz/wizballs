@@ -110,8 +110,7 @@ class CourtTile(SelectableSprite, HighlightableSprite):
         self.image = pygame.Surface([GRID_SIZE, GRID_SIZE], pygame.SRCALPHA)
         self.rect = self.image.get_rect()
 
-        self.x = x
-        self.y = y
+        self.pos = GridPosition(x, y, X_TILES, Y_TILES)
 
         self._fill_opacity = COURT_TILE_OPACITY
 
