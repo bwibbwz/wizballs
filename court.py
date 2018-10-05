@@ -86,28 +86,45 @@ class CourtField(pygame.sprite.Sprite):
             court_picture.set_alpha(BG_COURT_OPACITY)
             self.image.blit(court_picture, court_picture.get_rect())
 
-            pygame.draw.line(self.image, CL_BLACK, self.rect.midtop, self.rect.midbottom, 3)
             pygame.draw.circle(self.image, CL_BLACK, self.rect.center, GRID_SIZE, 3)
             pygame.draw.circle(self.image, CL_BLACK, self.rect.center, GRID_SIZE // 3, 3)
 
+            oob_lines = pygame.draw.rect(self.image, CL_BLACK, (self.rect.topleft[0] + 2 * GRID_SIZE * GRID_PADDING, 
+                                                                self.rect.topleft[1] + 2 * GRID_SIZE * GRID_PADDING,
+                                                                X_TILES * GRID_SIZE * (1 + GRID_PADDING) - 3 * GRID_SIZE * GRID_PADDING,
+                                                                Y_TILES * GRID_SIZE * (1 + GRID_PADDING) - 3 * GRID_SIZE * GRID_PADDING),
+                                                                3)
+
+            center_line = pygame.draw.line(self.image, CL_BLACK, oob_lines.midtop, (oob_lines.midbottom[0], oob_lines.midbottom[1] - 1), 3)
+
             penalty_box1 = pygame.draw.rect(self.image,
                              CL_BLACK, 
-                             (self.rect.right - 4 * (GRID_SIZE + GRID_PADDING),
-                             self.rect.centery - 1.5 * (GRID_SIZE + GRID_PADDING),
-                             4 * (GRID_SIZE + GRID_PADDING),
-                             3 * (GRID_SIZE + GRID_PADDING)),
+                             (oob_lines.right - (4 * (GRID_SIZE * (1 + GRID_PADDING)) - 3 * GRID_PADDING * GRID_SIZE),
+                              oob_lines.centery - 1.5 * (GRID_SIZE * (1 + GRID_PADDING)) + 1.5 * GRID_PADDING * GRID_SIZE,
+                              4 * (GRID_SIZE * (1 + GRID_PADDING)) - 3 * GRID_PADDING * GRID_SIZE,
+                              3 * (GRID_SIZE * (1 + GRID_PADDING)) - 3 * GRID_PADDING * GRID_SIZE),
+                             #(self.rect.right - 4 * (GRID_SIZE + GRID_PADDING),
+                             #self.rect.centery - 1.5 * (GRID_SIZE + GRID_PADDING),
+                             #4 * (GRID_SIZE + GRID_PADDING),
+                             #3 * (GRID_SIZE + GRID_PADDING)),
                              3)
             pygame.draw.circle(self.image, CL_BLACK, penalty_box1.midleft, GRID_SIZE, 3)
 
             penalty_box2 = pygame.draw.rect(self.image,
                              CL_BLACK, 
-                             (self.rect.left,
-                             self.rect.centery - 1.5 * (GRID_SIZE + GRID_PADDING),
-                             4 * (GRID_SIZE + GRID_PADDING),
-                             3 * (GRID_SIZE + GRID_PADDING)),
+                             (oob_lines.left,
+                              oob_lines.centery - 1.5 * (GRID_SIZE * (1 + GRID_PADDING)) + 1.5 * GRID_PADDING * GRID_SIZE,
+                              4 * (GRID_SIZE * (1 + GRID_PADDING)) - 3 * GRID_PADDING * GRID_SIZE,
+                              3 * (GRID_SIZE * (1 + GRID_PADDING)) - 3 * GRID_PADDING * GRID_SIZE),
                              3)
             pygame.draw.circle(self.image, CL_BLACK, penalty_box2.midright, GRID_SIZE, 3)
 
+            #pygame.draw.line(self.image, CL_BLACK,
+            #                (oob_lines.left,
+            #                 oob_lines.top + GRID_SIZE * (1 + GRID_PADDING)),
+            #                (oob_lines.left + 2 * (GRID_SIZE * (1 + GRID_PADDING)),
+            #                 oob_lines.top + GRID_SIZE * (1 + GRID_PADDING)),
+            #                3)
             
         self.name = name
 
