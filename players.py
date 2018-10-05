@@ -126,7 +126,7 @@ class ActivePlayers(SelectableSprite):
 
         self.anim_counter += 1
 
-        if self.anim_counter == 9: # Overwrite
+        if self.anim_counter == 10: # Overwrite
             self.image = self.images[0]
             self.rect.topleft = new_tl
             self.anim_counter = 0
