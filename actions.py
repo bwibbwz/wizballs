@@ -27,17 +27,29 @@ class WizBallsActions:
             return
 
         if action == 'RIGHT':
-            pos[0] += 1
-            self.has_moved = True
+            try:
+                pos.move(1, 0)
+                self.has_moved = True
+            except:
+                pass
         elif action == 'LEFT':
-            pos[0] -= 1
-            self.has_moved = True
+            try:
+                pos.move(-1, 0)
+                self.has_moved = True
+            except:
+                pass
         elif action == 'UP':
-            pos[1] -= 1
-            self.has_moved = True
+            try:
+                pos.move(0, -1)
+                self.has_moved = True
+            except:
+                pass
         elif action == 'DOWN':
-            pos[1] += 1
-            self.has_moved = True
+            try:
+                pos.move(0, 1)
+                self.has_moved = True
+            except:
+                pass
         # SFX
         elif action == 'EXPLODE':
             # A) need to 'kill' sprite

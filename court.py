@@ -4,7 +4,69 @@ import pygame
 import logging as l
 from conf import *
 from groups import Group, CourtTilesGroup
-from sprites import SelectableSprite
+from sprites import SelectableSprite, HighlightableSprite
+from graphics_functions import draw_border, copy_color
+
+class GridPosition():
+    def __init__(self, x, y, max_x=X_TILES, max_y=Y_TILES):
+        self._max_x = max_x
+        self._max_y = max_y
+        self.pos = x, y
+
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, x):
+        self.pos = x, self.y
+
+    @property
+    def y(self):
+        return self._y
+
+    @y.setter
+    def y(self, y):
+        self.pos = self.x, y
+
+    @property
+    def pos(self):
+        return self._x, self._y
+    
+    @pos.setter
+    def pos(self, pos):
+        if pos[0] >= self._max_x or pos[1] >= self._max_y or pos[0] < 0 or pos[1] < 0:
+            raise IndexError('(%i, %i) is outside the grid area' % (pos[0], pos[1]))
+        self._x = pos[0]
+        self._y = pos[1]
+
+    def move(self, dx, dy):
+        self.pos = self.x + dx, self.y + dy 
+        return self.pos
+
+    def __getitem__(self, key):
+        if key == 0:
+            return self.x
+        elif key == 1:
+            return self.y
+        else:
+            raise IndexError('There are only 2 values possible, 0 and 1 (%i was given)' % key)
+
+    def __call__(self):
+        return self.pos
+
+    def __str__(self):
+        return str(self.pos)
+
+    def __add__(self, dpos):
+        self.move(dpos[0], dpos[1])
+
+    def __sub__(self, dpos):
+        self.__add__((-dpos[0], -dpos[1]))
+
+    def __eq__(self, pos):
+        return self.x == pos[0] and self.y == pos[1]
+
 
 class CourtLine(pygame.sprite.Sprite):
     def __init__(self):
@@ -18,25 +80,89 @@ class CourtField(pygame.sprite.Sprite):
         self.image.fill(color)
         self.rect = self.image.get_rect()
 
+        if name == 'play_court':
+            court_picture = pygame.image.load('img/wood-floor-tileable.jpg').convert()
+            court_picture = pygame.transform.scale(court_picture, (self.rect.size))
+            court_picture.set_alpha(BG_COURT_OPACITY)
+            self.image.blit(court_picture, court_picture.get_rect())
+
+            pygame.draw.circle(self.image, CL_BLACK, self.rect.center, GRID_SIZE, 3)
+            pygame.draw.circle(self.image, CL_BLACK, self.rect.center, GRID_SIZE // 3, 3)
+
+            oob_lines = pygame.draw.rect(self.image, CL_BLACK, (self.rect.topleft[0] + 2 * GRID_SIZE * GRID_PADDING, 
+                                                                self.rect.topleft[1] + 2 * GRID_SIZE * GRID_PADDING,
+                                                                X_TILES * GRID_SIZE * (1 + GRID_PADDING) - 3 * GRID_SIZE * GRID_PADDING,
+                                                                Y_TILES * GRID_SIZE * (1 + GRID_PADDING) - 3 * GRID_SIZE * GRID_PADDING),
+                                                                3)
+
+            center_line = pygame.draw.line(self.image, CL_BLACK, oob_lines.midtop, (oob_lines.midbottom[0], oob_lines.midbottom[1] - 1), 3)
+
+            penalty_box1 = pygame.draw.rect(self.image,
+                             CL_BLACK, 
+                             (oob_lines.right - (4 * (GRID_SIZE * (1 + GRID_PADDING)) - 3 * GRID_PADDING * GRID_SIZE),
+                              oob_lines.centery - 1.5 * (GRID_SIZE * (1 + GRID_PADDING)) + 1.5 * GRID_PADDING * GRID_SIZE,
+                              4 * (GRID_SIZE * (1 + GRID_PADDING)) - 3 * GRID_PADDING * GRID_SIZE,
+                              3 * (GRID_SIZE * (1 + GRID_PADDING)) - 3 * GRID_PADDING * GRID_SIZE),
+                             #(self.rect.right - 4 * (GRID_SIZE + GRID_PADDING),
+                             #self.rect.centery - 1.5 * (GRID_SIZE + GRID_PADDING),
+                             #4 * (GRID_SIZE + GRID_PADDING),
+                             #3 * (GRID_SIZE + GRID_PADDING)),
+                             3)
+            pygame.draw.circle(self.image, CL_BLACK, penalty_box1.midleft, GRID_SIZE, 3)
+
+            penalty_box2 = pygame.draw.rect(self.image,
+                             CL_BLACK, 
+                             (oob_lines.left,
+                              oob_lines.centery - 1.5 * (GRID_SIZE * (1 + GRID_PADDING)) + 1.5 * GRID_PADDING * GRID_SIZE,
+                              4 * (GRID_SIZE * (1 + GRID_PADDING)) - 3 * GRID_PADDING * GRID_SIZE,
+                              3 * (GRID_SIZE * (1 + GRID_PADDING)) - 3 * GRID_PADDING * GRID_SIZE),
+                             3)
+            pygame.draw.circle(self.image, CL_BLACK, penalty_box2.midright, GRID_SIZE, 3)
+
+            #pygame.draw.line(self.image, CL_BLACK,
+            #                (oob_lines.left,
+            #                 oob_lines.top + GRID_SIZE * (1 + GRID_PADDING)),
+            #                (oob_lines.left + 2 * (GRID_SIZE * (1 + GRID_PADDING)),
+            #                 oob_lines.top + GRID_SIZE * (1 + GRID_PADDING)),
+            #                3)
+            
         self.name = name
 
-class CourtTile(pygame.sprite.Sprite):
+class CourtTile(SelectableSprite, HighlightableSprite):
     def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self, self.groups)
-        self.image = pygame.Surface([GRID_SIZE, GRID_SIZE])
-        self.image.fill(CL_TILES)
+        HighlightableSprite.__init__(self, main_color = CL_TILES, highlighted_color = CL_BLUE)
+        SelectableSprite.__init__(self, main_color = CL_TILES, selected_color = CL_RED)
+
+        self.image = pygame.Surface([GRID_SIZE, GRID_SIZE], pygame.SRCALPHA)
         self.rect = self.image.get_rect()
 
-        self.x = x
-        self.y = y
+        self.pos = GridPosition(x, y, X_TILES, Y_TILES)
+
+        self._fill_opacity = COURT_TILE_OPACITY
+
+        self.update()
+
+    def update(self):
+        self.image.fill(copy_color(self._active_color, alpha = self._fill_opacity))
+        draw_border(self.image, color = self._active_color)
+
+class BasketTile(CourtTile):
+    def __init__(self, x, y):
+        CourtTile.__init__(self, x, y)
+
+    def update(self):
+        self.image.fill(copy_color(self._active_color, alpha = BASKET_TILE_OPACITY))
+        draw_border(self.image, color = self._active_color)
+        # BUG: The basket itself should be drawn on top of the player sprite. 
+        pygame.draw.circle(self.image, CL_BLACK, (int(GRID_SIZE / 2), int(GRID_SIZE / 2)), int(GRID_SIZE / 3), 3)
 
 class CommandTile(SelectableSprite):
     def __init__(self, name, symbol):
-        SelectableSprite.__init__(self)
+        SelectableSprite.__init__(self, main_color = CL_RED, selected_color = CL_BLACK)
 
         font_type = pygame.font.SysFont('comicsansms', 72)
         text_surface = font_type.render(symbol, True, [0, 0, 0])
-        text_surface = pygame.transform.scale(text_surface, [2 * GRID_SIZE, 2 * GRID_SIZE])
+        text_surface = pygame.transform.scale(text_surface, [GRID_SIZE // 2, GRID_SIZE // 2])
 
         self.image = text_surface
         self.rect = text_surface.get_rect()
@@ -50,27 +176,32 @@ def init_all_command_tiles(score_board):
     for name, symbol in commands.items():
         tile = CommandTile(name, symbol)
         if name == 'left':
-            tile.rect.midleft = [2 * GRID_SIZE + ref_pos[0], ref_pos[1]]
+            tile.rect.midleft = [0.5 * GRID_SIZE + ref_pos[0], ref_pos[1]]
         elif name == 'right':
-            tile.rect.midleft = [6 * GRID_SIZE + ref_pos[0], ref_pos[1]]
+            tile.rect.midleft = [1.5 * GRID_SIZE + ref_pos[0], ref_pos[1]]
         elif name == 'up':
-            tile.rect.midleft = [4 * GRID_SIZE + ref_pos[0], -2 * GRID_SIZE + ref_pos[1]]
+            tile.rect.midleft = [1 * GRID_SIZE + ref_pos[0], -0.5 * GRID_SIZE + ref_pos[1]]
         elif name == 'down':
-            tile.rect.midleft = [4 * GRID_SIZE + ref_pos[0], 2 * GRID_SIZE + ref_pos[1]]
+            tile.rect.midleft = [1 * GRID_SIZE + ref_pos[0], 0.5 * GRID_SIZE + ref_pos[1]]
         elif name == 'submit':
-            tile.rect.midleft = [11 * GRID_SIZE, ref_pos[1]]
+            tile.rect.midleft = [3 * GRID_SIZE, ref_pos[1]]
         elif name == 'endturn':
-            tile.rect.midleft = [15 * GRID_SIZE, ref_pos[1]]
+            tile.rect.midleft = [8 * GRID_SIZE, ref_pos[1]]
 
 def init_all_court_tiles(play_court):
     for k in range(X_TILES):
         for j in range(Y_TILES):
-            tile = CourtTile(k, j)
-            tile.rect.topleft = [(k + 1) * 2 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0], (j + 1) * 2 * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[1]]
+            if j == int(Y_TILES / 2) and (k == 0 or k == X_TILES - 1):
+                # Set up the special BasketTiles
+                tile = BasketTile(k, j)
+            else:
+                tile = CourtTile(k, j)
+            tile.rect.topleft = ((k + 1) * (1 + GRID_PADDING) * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[0],
+                                 (j + 1) * (1 + GRID_PADDING) * GRID_SIZE - GRID_SIZE + play_court.rect.topleft[1])
 
 def init_all_court_fields():
-    score_board = CourtField(CL_SCORE, (X_SIZE - 2 * GRID_SIZE, Y_SIZE - GRID_SIZE - COURT_RATIO * Y_SIZE), 'score_board')
-    score_board.rect.topleft = [GRID_SIZE, GRID_SIZE]
-    
-    play_court = CourtField(CL_COURT, (X_SIZE - 2 * GRID_SIZE, Y_SIZE - 2 * GRID_SIZE - (1.0 - COURT_RATIO) * Y_SIZE), 'play_court')
-    play_court.rect.bottomleft = [GRID_SIZE, Y_SIZE - GRID_SIZE]
+    score_board = CourtField(CL_SCORE, (X_SIZE, Y_SCORE_SIZE), 'score_board')
+    score_board.rect.topleft = (0, 0)
+
+    play_court = CourtField(CL_COURT, (X_SIZE, Y_COURT_SIZE), 'play_court')
+    play_court.rect.topleft = score_board.rect.bottomleft

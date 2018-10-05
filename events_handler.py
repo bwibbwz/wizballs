@@ -4,7 +4,7 @@ import pygame
 import logging as l
 from basic_functions import quit_game
 
-def process_events(events, player_group):
+def process_events(events, all_sprites, player_group, court_group):
     for event in events:
         l.debug(event)
         if event.type == pygame.QUIT:
@@ -13,22 +13,22 @@ def process_events(events, player_group):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT or event.key == ord('d'):
                 l.info('Key pressed: RIGHT')
-                sprite = [s for s in player_group if s.selected]
+                sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
                     sprite[0].update('RIGHT')
             if event.key == pygame.K_LEFT or event.key == ord('a'):
                 l.info('Key pressed: LEFT')
-                sprite = [s for s in player_group if s.selected]
+                sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
                     sprite[0].update('LEFT')
             if event.key == pygame.K_DOWN or event.key == ord('s'):
                 l.info('Key pressed: DOWN')
-                sprite = [s for s in player_group if s.selected]
+                sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
                     sprite[0].update('DOWN')
             if event.key == pygame.K_UP or event.key == ord('w'):
                 l.info('Key pressed: UP')
-                sprite = [s for s in player_group if s.selected]
+                sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
                     sprite[0].update('UP')
             if event.key == pygame.K_ESCAPE:
@@ -36,19 +36,30 @@ def process_events(events, player_group):
                 l.info('Key pressed: ESCAPE')
             if event.key == pygame.K_SPACE:
                 l.info('Key pressed: EXPLODE')
-                sprite = [s for s in player_group if s.selected]
+                sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
                     sprite[0].update('EXPLODE')
         elif event.type == pygame.MOUSEBUTTONUP:
             l.info('Mouse button pressed')
             pos = pygame.mouse.get_pos()
-            clicked_sprite = [s for s in player_group 
-                              if s.rect.collidepoint(pos)]
-            not_clicked_sprite = [s for s in player_group
-                                  if not s.rect.collidepoint(pos)]
 
-            if clicked_sprite:            
-                clicked_sprite[0].selected = True
-            for s in not_clicked_sprite:
-                s.selected = False
-            
+            all_sprites_clicked = [sprite for sprite in all_sprites if sprite.rect.collidepoint(pos)]
+
+            # NB: It would be NICE to manage this without passing the individual groups as arguments.
+            player_sprites_clicked = [sprite for sprite in all_sprites_clicked if player_group.has(sprite)]
+            court_sprites_clicked = [sprite for sprite in all_sprites_clicked if court_group.has(sprite)]
+
+            if len(court_sprites_clicked) == 1:
+                court_sprites_clicked[0].select()
+            elif len(court_sprites_clicked) < 1:
+                court_group.deselect_all_sprites()
+
+            if len(player_sprites_clicked) == 1:
+                player_sprites_clicked[0].select()
+            elif len(player_sprites_clicked) < 1:
+                player_group.deselect_all_sprites()
+            else:
+                for s in player_sprites_clicked:
+                    s.update('EXPLODE')
+                pass
+                # NYI errors or features if multiple players are selected at once.
