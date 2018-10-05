@@ -131,6 +131,7 @@ class ActivePlayers(SelectableSprite):
         self.image = self.images[self.image_index]
         self.rect.x += dX
         self.rect.y += dY
+        self.image.set_colorkey(CL_BLACK)
 
         self.anim_counter += 1
 
@@ -180,6 +181,7 @@ class Wizards(ActivePlayers):
 
         self.image_index = 0
         self.image = self.images[self.image_index]
+        self.image.set_colorkey(CL_BLACK)
 
         self.team = team
         self.tag = 'W' # Wizard
