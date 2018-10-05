@@ -11,6 +11,14 @@ from court import GridPosition
 
 from conf import *
 
+def Stats():
+    def __init__(self):
+        self._stats = {'health': 100,
+                       'str': 8,
+                       'dex': 8,
+                       'int': 8,
+                      }
+
 def draw_rect(surface, outline_color, fill_color, border=6):
     """ Draw outline on image
 
