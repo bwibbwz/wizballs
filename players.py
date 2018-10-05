@@ -110,16 +110,19 @@ class ActivePlayers(SelectableSprite):
     def animate_move(self, old_tl, new_tl):
         # Update image in intervals of ??
         # X
-        X  = new_tl[0] - old_tl[0]
+        X = new_tl[0] - old_tl[0]
+        Y = new_tl[1] - old_tl[1]
         dX = X // 10 # Three loops of 1,2,3
+        dY = Y // 10 
         # end is image 0
         self.image_index += 1
 
         if self.image_index > 3:
-            self.image_index = 1
+            self.image_index = 0
 
         self.image = self.images[self.image_index]
-        self.rect.x += dX 
+        self.rect.x += dX
+        self.rect.y += dY
 
         self.anim_counter += 1
 
@@ -164,7 +167,7 @@ class Wizards(ActivePlayers):
         self.images = []
         self.images.append(load_image('img/anim/wizard/wizard_1_still.bmp', self.rect))
         self.images.append(load_image('img/anim/wizard/wizard_1_walk_1.bmp', self.rect))
-        self.images.append(load_image('img/anim/wizard/wizard_1_walk_2.bmp', self.rect))
+        self.images.append(load_image('img/anim/wizard/wizard_1_still.bmp', self.rect))
         self.images.append(load_image('img/anim/wizard/wizard_1_walk_3.bmp', self.rect))
 
         self.image_index = 0
