@@ -44,4 +44,7 @@ class WizBallsActions:
             # B) need to spawn Fragment sprites
             self.has_changed = True
 
+        elif action == 'VIBRATE':
+            pass
+
         self.log.append(action)

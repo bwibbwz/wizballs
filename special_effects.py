@@ -30,7 +30,10 @@ class Explode(pygame.sprite.Sprite):
 
     def update(self, dt=0.1):
         #
-        if self.time > self.lifetime:
+        if (self.time > self.lifetime 
+            or self.rect.x < 0 
+            or self.rect.x > X_SIZE
+            or self.rect.y > Y_SIZE):
             self.kill()
         
         # Fade out according to lifetime.
