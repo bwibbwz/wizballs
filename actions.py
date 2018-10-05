@@ -24,7 +24,9 @@ class WizBallsActions:
     def update(self, action, pos=None):
         # Movement - need more logical ctrl here
         if action in ACTIONS['M'] and pos is None:
-            return
+            pass
+        else:
+            self.has_moved = True
 
         if action == 'RIGHT':
             try:
@@ -56,4 +58,7 @@ class WizBallsActions:
             # B) need to spawn Fragment sprites
             self.has_changed = True
 
-        self.log.append(action)
+        elif action == 'VIBRATE':
+            pass
+
+        #spassg.append(action)

@@ -8,6 +8,7 @@ from actions import WizBallsActions as WBA
 from special_effects import Explode
 from graphics_functions import draw_border
 from court import GridPosition
+from basic_functions import load_image
 
 from conf import *
 
@@ -47,11 +48,17 @@ class ActivePlayers(SelectableSprite):
         self.speed = 1
         self.rect = None
 
+        # Need ctrl for animations
+        self.image_index = 0
+        self.anim_counter = 0
+        self.animate = False
+
         self.color = color
         self.image = pygame.Surface([GRID_SIZE, GRID_SIZE], pygame.SRCALPHA)
         self.image.fill(self.color)
 
         self.update()
+
 
     def select(self):
         super().select()
@@ -78,8 +85,13 @@ class ActivePlayers(SelectableSprite):
            self.action.update(action, self.pos)
 
         if self.action.has_moved:
-            self.update_rect()
+            self.old_tl = self.rect.topleft  # Beg
+            self.new_tl = self.update_rect() # End
             self.action.has_moved = False
+            self.animate = True
+
+        if self.animate:
+            self.animate_move(self.old_tl, self.new_tl)
 
         if self.action.has_changed:
             self.kill()
@@ -99,8 +111,36 @@ class ActivePlayers(SelectableSprite):
         x = self.pos.x
         y = self.pos.y
         CourtTiles = ActivePlayers.groups[0].get_sprites_from_layer(CT_L)
-        self.rect.topleft = \
-             CourtTiles[0].groups[1].get_tile(self.pos).rect.topleft
+        #self.rect.topleft = \
+        #      CourtTiles[0].groups[1].get_tile(self.pos).rect.topleft
+        return CourtTiles[0].groups[1].get_tile(self.pos).rect.topleft
+
+    def animate_move(self, old_tl, new_tl):
+        # Update image in intervals of ??
+        # X
+        X = new_tl[0] - old_tl[0]
+        Y = new_tl[1] - old_tl[1]
+        dX = X // 10 # Three loops of 1,2,3
+        dY = Y // 10 
+        # end is image 0
+        self.image_index += 1
+
+        if self.image_index > 3:
+            self.image_index = 0
+
+        self.image = self.images[self.image_index]
+        self.rect.x += dX
+        self.rect.y += dY
+
+        self.anim_counter += 1
+
+        if self.anim_counter == 10: # Overwrite
+            self.image = self.images[0]
+            self.rect.topleft = new_tl
+            self.anim_counter = 0
+            self.image_index = 0
+            self.animate = False
+            
 
 class BasketballPlayers(ActivePlayers):
    # Constructor for active players
@@ -130,6 +170,16 @@ class Wizards(ActivePlayers):
         # Hold on to original image
         self.orig_image = self.image.copy()
         self.rect = self.image.get_rect()
+
+        # HACK to overwrite current image
+        self.images = []
+        self.images.append(load_image('img/anim/wizard/wizard_1_still.bmp', self.rect))
+        self.images.append(load_image('img/anim/wizard/wizard_1_walk_1.bmp', self.rect))
+        self.images.append(load_image('img/anim/wizard/wizard_1_still.bmp', self.rect))
+        self.images.append(load_image('img/anim/wizard/wizard_1_walk_3.bmp', self.rect))
+
+        self.image_index = 0
+        self.image = self.images[self.image_index]
 
         self.team = team
         self.tag = 'W' # Wizard

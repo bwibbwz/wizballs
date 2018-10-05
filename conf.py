@@ -57,6 +57,7 @@ W_SIZE = 1
 # ACTIONS
 ACTIONS = {}
 ACTIONS['M'] = ('RIGHT','LEFT','UP','DOWN')
+ACTIONS['SFX'] = ('EXPLODE','VIBRATE')
 
 # LAYERS
 BG_L  = 1 # Background

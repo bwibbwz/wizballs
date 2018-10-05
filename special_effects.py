@@ -21,7 +21,7 @@ class Explode(pygame.sprite.Sprite):
         self.image.set_alpha(225) # Start slightly faded
 
         self.rect = self.image.get_rect()
-        self.rect.topleft = sprite.rect.topleft
+        self.rect.center = sprite.rect.center
 
         #
         self.lifetime = 1 + random.randint(0,99)
@@ -30,7 +30,10 @@ class Explode(pygame.sprite.Sprite):
 
     def update(self, dt=0.1):
         #
-        if self.time > self.lifetime:
+        if (self.time > self.lifetime 
+            or self.rect.x < 0 
+            or self.rect.x > X_SIZE
+            or self.rect.y > Y_SIZE):
             self.kill()
         
         # Fade out according to lifetime.
