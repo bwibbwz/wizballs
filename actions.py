@@ -24,7 +24,9 @@ class WizBallsActions:
     def update(self, action, pos=None):
         # Movement - need more logical ctrl here
         if action in ACTIONS['M'] and pos is None:
-            return
+            pass
+        else:
+            self.has_moved = True
 
         if action == 'RIGHT':
             try:
@@ -59,4 +61,4 @@ class WizBallsActions:
         elif action == 'VIBRATE':
             pass
 
-        self.log.append(action)
+        #spassg.append(action)

@@ -21,7 +21,7 @@ class Explode(pygame.sprite.Sprite):
         self.image.set_alpha(225) # Start slightly faded
 
         self.rect = self.image.get_rect()
-        self.rect.topleft = sprite.rect.topleft
+        self.rect.center = sprite.rect.center
 
         #
         self.lifetime = 1 + random.randint(0,99)
