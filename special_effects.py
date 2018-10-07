@@ -2,8 +2,8 @@ import pygame, random
 from conf import *
 
 class Explode(pygame.sprite.Sprite):
-    """ Explosions which throw 'cubic' fragments around.  
-        The fragments fall down off the screen due to 'gravity'.
+    """ Explosion which throws one fragment around.  
+        The fragment falls down off the screen due to 'gravity'.
     """
     gravity = True
 
@@ -14,11 +14,14 @@ class Explode(pygame.sprite.Sprite):
         self.dx = random.randint(-GRID_SIZE*2, GRID_SIZE*2) # vel-x
         self.dy = random.randint(-GRID_SIZE*2, GRID_SIZE*2) # vel-y
 
-        self.image = pygame.Surface([random.randint(5,GRID_SIZE/2), 
-                                     random.randint(5,GRID_SIZE/2)])
+        # 
+        self.image = pygame.Surface([random.randint(3, GRID_SIZE // 5), 
+                                     random.randint(3, GRID_SIZE // 5)])
+
+        self.alpha = 225
         # Color
         self.image.fill(sprite.color)
-        self.image.set_alpha(225) # Start slightly faded
+        self.image.set_alpha(self.alpha) # Start slightly faded
 
         self.rect = self.image.get_rect()
         self.rect.center = sprite.rect.center
@@ -35,10 +38,10 @@ class Explode(pygame.sprite.Sprite):
             or self.rect.x > X_SIZE
             or self.rect.y > Y_SIZE):
             self.kill()
-        
-        # Fade out according to lifetime.
-        self.image.set_alpha(225 - 224 / self.lifetime)
-        # need to get rect again? Not sure this is working
+       
+        self.alpha -= 224 / self.lifetime
+        # Fade out relative to lifetime.
+        self.image.set_alpha(self.alpha)
 
         self.time += 1
 
