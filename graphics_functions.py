@@ -30,4 +30,3 @@ def average_color(image):
             pixels[2] += color.b
     avg_color = pygame.Color(round(pixels[0]/k/j), round(pixels[1]/k/j), round(pixels[2]/k/j), 255)
     return avg_color
-        
