@@ -7,7 +7,7 @@ from groups import PlayersGroup, CourtTilesGroup
 from actions import WizBallsActions as WBA
 from animator import AnimateMove as ANIM
 from special_effects import Explode
-from graphics_functions import draw_border, load_image
+from graphics_functions import load_image
 from court import GridPosition
 
 from conf import *
@@ -84,9 +84,6 @@ class ActivePlayers(SelectableSprite):
 
         if self.action.has_changed:
             self.kill()
-
-        # This takes care of drawing the border in the correct color
-        draw_border(self.image, color = self._active_color)
 
     def kill(self):
         for _ in range(random.randint(15,30)):
