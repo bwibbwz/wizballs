@@ -1,5 +1,6 @@
 # Various Groups which handle different sprites
 import pygame
+from math import floor, ceil
 
 class Group(pygame.sprite.Group):
     def __init__(self):
@@ -43,6 +44,13 @@ class CourtTilesGroup(Group):
             raise IndexError('Multiple tiles were found. This should not happen.')
         else:
             raise IndexError('No tiles were found with index (%i, %i).' % (pos[0], pos[1]))
+
+    def get_coords(self, pos):
+        pos11 = self.get_tile((floor(pos[0]), floor(pos[1]))).get_coords()
+        pos22 = self.get_tile((ceil(pos[0]), ceil(pos[1]))).get_coords()
+        x = round((pos11[0] + pos22[0]) / 2)
+        y = round((pos11[1] + pos22[1]) / 2)
+        return (x, y)
 
 class PlayersGroup(pygame.sprite.OrderedUpdates):
     # Group to handle player sprites

@@ -140,6 +140,9 @@ class CourtTile(SelectableSprite, HighlightableSprite):
         self.image.fill(copy_color(self._active_color, alpha = self._fill_opacity))
         draw_border(self.image, color = self._active_color)
 
+    def get_coords(self, keyword='center'):
+        return getattr(self.rect, keyword)
+
 class BasketTile(CourtTile):
     def __init__(self, x, y):
         CourtTile.__init__(self, x, y)
