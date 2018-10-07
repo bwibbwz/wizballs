@@ -3,14 +3,26 @@
 import pygame
 import random
 from sprites import SelectableSprite
-from groups import PlayersGroup
+from groups import PlayersGroup, CourtTilesGroup
 from actions import WizBallsActions as WBA
+from animator import AnimateMove as ANIM
 from special_effects import Explode
-from graphics_functions import draw_border
+from graphics_functions import draw_border, load_image
 from court import GridPosition
-from basic_functions import load_image
 
 from conf import *
+
+def get_group(sprite, group_in):
+    for group in sprite.groups:
+        if group.__class__ == pygame.sprite.LayeredUpdates:
+            all_sprites = group
+            break
+    for s in all_sprites.sprites():
+        for g in s.groups:
+            if g.__class__ == group_in:
+                group_out = g
+                break
+    return group_out
 
 def Stats():
     def __init__(self):
@@ -19,16 +31,6 @@ def Stats():
                        'dex': 8,
                        'int': 8,
                       }
-
-def draw_rect(surface, outline_color, fill_color, border=6):
-    """ Draw outline on image
-
-    """
-    # assert surface has rect <---
-    # should have a more general option for 'fill_color' such as image from file
-    surface.fill(outline_color)
-    rect = surface.get_rect()
-    surface.fill(fill_color, rect.inflate(-border, -border))
 
 class ActivePlayers(SelectableSprite):
     """ Main class for basketball players and wizards 
@@ -41,6 +43,7 @@ class ActivePlayers(SelectableSprite):
         self.pos = GridPosition(x, y)
 
         self.action   = WBA()
+
         self.image      = None
         self.orig_image = None
         self.c_idx      = None
@@ -57,26 +60,11 @@ class ActivePlayers(SelectableSprite):
         self.image = pygame.Surface([GRID_SIZE, GRID_SIZE], pygame.SRCALPHA)
         self.image.fill(self.color)
 
-        self.update()
-
+        #self.update()
 
     def select(self):
         super().select()
         return
-        # The following code has NO effect at the moment but will be used in the future.
-        from groups import CourtTilesGroup
-        court_tiles_group = None
-        for group in self.groups:
-            if group.__class__ == pygame.sprite.LayeredUpdates:
-                all_sprites = group
-                break
-        for s in all_sprites.sprites():
-            for g in s.groups:
-                if g.__class__ == CourtTilesGroup:
-                    court_tiles_group = g
-                    break
-        court_tiles_group.get_tile(self.pos + (1, 0)).highlight()
-        court_tiles_group.get_tile(self.pos - (1, 0)).highlight()
 
     def update(self, action=None):
         if action is None:
@@ -85,13 +73,14 @@ class ActivePlayers(SelectableSprite):
            self.action.update(action, self.pos)
 
         if self.action.has_moved:
-            self.old_tl = self.rect.topleft  # Beg
-            self.new_tl = self.update_rect() # End
+            beg = self.rect.center
+            end = self.update_rect()
             self.action.has_moved = False
-            self.animate = True
+            self.movement.initialize(beg, end)
+            self.movement.animate = True
 
-        if self.animate:
-            self.animate_move(self.old_tl, self.new_tl)
+        if self.movement.animate:
+            self.image = self.movement.update(self.rect)
 
         if self.action.has_changed:
             self.kill()
@@ -100,9 +89,9 @@ class ActivePlayers(SelectableSprite):
         draw_border(self.image, color = self._active_color)
 
     def kill(self):
-        for _ in range(random.randint(6,15)):
+        for _ in range(random.randint(15,30)):
             Explode(self)
-            pygame.sprite.Sprite.kill(self)
+        pygame.sprite.Sprite.kill(self)
 
     def update_rect(self):
         if self.rect is None:
@@ -110,38 +99,9 @@ class ActivePlayers(SelectableSprite):
         # match grid_pos to corresponding court rect
         x = self.pos.x
         y = self.pos.y
-        CourtTiles = ActivePlayers.groups[0].get_sprites_from_layer(CT_L)
-        #self.rect.topleft = \
-        #      CourtTiles[0].groups[1].get_tile(self.pos).rect.topleft
-        return CourtTiles[0].groups[1].get_tile(self.pos).rect.topleft
+        g = get_group(self, CourtTilesGroup)
+        return g.get_tile(self.pos).rect.center
 
-    def animate_move(self, old_tl, new_tl):
-        # Update image in intervals of ??
-        # X
-        X = new_tl[0] - old_tl[0]
-        Y = new_tl[1] - old_tl[1]
-        dX = X // 10 # Three loops of 1,2,3
-        dY = Y // 10 
-        # end is image 0
-        self.image_index += 1
-
-        if self.image_index > 3:
-            self.image_index = 0
-
-        self.image = self.images[self.image_index]
-        self.rect.x += dX
-        self.rect.y += dY
-        self.image.set_colorkey(CL_BLACK)
-
-        self.anim_counter += 1
-
-        if self.anim_counter == 10: # Overwrite
-            self.image = self.images[0]
-            self.rect.topleft = new_tl
-            self.anim_counter = 0
-            self.image_index = 0
-            self.animate = False
-            
 
 class BasketballPlayers(ActivePlayers):
    # Constructor for active players
@@ -158,6 +118,8 @@ class BasketballPlayers(ActivePlayers):
        self.tag = CL_STONE[c_idx][1]
        self.c_idx = c_idx
 
+       self.movement = ANIM([self.image, self.image], 10)
+
        # Actions and logics
        self.action = WBA()
 
@@ -172,16 +134,20 @@ class Wizards(ActivePlayers):
         self.orig_image = self.image.copy()
         self.rect = self.image.get_rect()
 
-        # HACK to overwrite current image
+        angle = (team + 1) * 90
+
+        #
         self.images = []
-        self.images.append(load_image('img/anim/wizard/wizard_1_still.bmp', self.rect))
-        self.images.append(load_image('img/anim/wizard/wizard_1_walk_1.bmp', self.rect))
-        self.images.append(load_image('img/anim/wizard/wizard_1_still.bmp', self.rect))
-        self.images.append(load_image('img/anim/wizard/wizard_1_walk_3.bmp', self.rect))
+        self.images.append(load_image('img/anim/wizard/wizard_1_still.png', self.rect, angle))
+        self.images.append(load_image('img/anim/wizard/wizard_1_walk_1.png', self.rect, angle))
+        self.images.append(load_image('img/anim/wizard/wizard_1_still.png', self.rect, angle))
+        self.images.append(load_image('img/anim/wizard/wizard_1_walk_2.png', self.rect, angle))
+
+        # Animate Movement
+        self.movement = ANIM(self.images, 10)
 
         self.image_index = 0
         self.image = self.images[self.image_index]
-        self.image.set_colorkey(CL_BLACK)
 
         self.team = team
         self.tag = 'W' # Wizard
@@ -199,7 +165,6 @@ def init_all_players(court_tiles_group):
 
     """
     # FIELD
-    CourtTiles = ActivePlayers.groups[0].get_sprites_from_layer(CT_L)
 
     for team in [-1, 1]:
         # Regular players
@@ -208,15 +173,15 @@ def init_all_players(court_tiles_group):
            p = BasketballPlayers(c_idx, team)
            p.pos.pos = (int(X_TILES / 2 + team), int(Y_TILES / 2) - 1 + player * 2)
            # Inital position
-           p.rect.topleft = \
-            CourtTiles[0].groups[1].get_tile(p.pos).rect.topleft
+           p.rect.center = \
+            court_tiles_group.get_tile(p.pos).rect.center
 
         # Wizards
         c_idx = random.randint(0,2)
         w = Wizards(c_idx, team)
         w.pos.pos = (int(X_TILES / 2 + team * 3), int(Y_TILES / 2))
-        w.rect.topleft = \
-         CourtTiles[0].groups[1].get_tile(w.pos).rect.topleft
+        w.rect.center = \
+         court_tiles_group.get_tile(w.pos).rect.center
 
 
 class Balls(pygame.sprite.Sprite):

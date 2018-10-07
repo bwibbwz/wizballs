@@ -1,7 +1,5 @@
 """ Class to handle possible actions
 
-    MOVE actions: RIGHT, LEFT, UP, DOWN
-
 """
 
 import pygame
@@ -27,8 +25,6 @@ class WizBallsActions:
         # Movement - need more logical ctrl here
         if action in ACTIONS['M'] and pos is None:
             pass
-        else:
-            self.has_moved = True
 
         if action.__class__ == Direction:
             try:

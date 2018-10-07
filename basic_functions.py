@@ -4,10 +4,6 @@ import pygame, sys, math
 import logging as l
 from conf import *
 
-def load_image(name, rect):
-    image = pygame.image.load(name).convert()
-    image = pygame.transform.scale(image, (rect.size))
-    return image
 
 def quit_game(quit_code=0):
     l.info('Exit game.')

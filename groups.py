@@ -50,11 +50,3 @@ class PlayersGroup(pygame.sprite.OrderedUpdates):
     def __init__(self):
         #
         pygame.sprite.OrderedUpdates.__init__(self)
-
-class SpecialEffectsGroup(pygame.sprite.Group):
-    """ Group to handle special effects (explosions)
-    """
-
-    def __init__(self):
-        #
-        pygame.sprite.Group.__init__(self)

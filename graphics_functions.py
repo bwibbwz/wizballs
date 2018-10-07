@@ -4,6 +4,13 @@ import pygame, sys
 import logging as l
 from conf import *
 
+def load_image(name, rect, angle=None):
+    image = pygame.image.load(name).convert()
+    image = pygame.transform.scale(image, (rect.size))
+    if angle:
+        image = pygame.transform.rotate(image, angle)
+    return image
+
 def draw_border(image, color=CL_BLACK, dimensions=(0, 0, GRID_SIZE - 1, GRID_SIZE - 1), thickness=2):
     pygame.draw.rect(image, color, dimensions, thickness)
 
