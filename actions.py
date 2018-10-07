@@ -9,6 +9,8 @@ import random
 
 from conf import *
 
+from controls import Direction
+
 class WizBallsActions:
 
     def __init__(self):
@@ -28,29 +30,11 @@ class WizBallsActions:
         else:
             self.has_moved = True
 
-        if action == 'RIGHT':
+        if action.__class__ == Direction:
             try:
-                pos.move(1, 0)
+                pos.move(action)
                 self.has_moved = True
-            except:
-                pass
-        elif action == 'LEFT':
-            try:
-                pos.move(-1, 0)
-                self.has_moved = True
-            except:
-                pass
-        elif action == 'UP':
-            try:
-                pos.move(0, -1)
-                self.has_moved = True
-            except:
-                pass
-        elif action == 'DOWN':
-            try:
-                pos.move(0, 1)
-                self.has_moved = True
-            except:
+            except Exception as err:
                 pass
         # SFX
         elif action == 'EXPLODE':

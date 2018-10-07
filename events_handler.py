@@ -3,6 +3,7 @@
 import pygame
 import logging as l
 from basic_functions import quit_game
+from controls import right, left, up, down
 
 def process_events(events, all_sprites, player_group, court_group):
     for event in events:
@@ -15,22 +16,22 @@ def process_events(events, all_sprites, player_group, court_group):
                 l.info('Key pressed: RIGHT')
                 sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
-                    sprite[0].update('RIGHT')
+                    sprite[0].update(right)
             if event.key == pygame.K_LEFT or event.key == ord('a'):
                 l.info('Key pressed: LEFT')
                 sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
-                    sprite[0].update('LEFT')
+                    sprite[0].update(left)
             if event.key == pygame.K_DOWN or event.key == ord('s'):
                 l.info('Key pressed: DOWN')
                 sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
-                    sprite[0].update('DOWN')
+                    sprite[0].update(down)
             if event.key == pygame.K_UP or event.key == ord('w'):
                 l.info('Key pressed: UP')
                 sprite = [s for s in player_group if s.is_selected()]
                 if sprite:
-                    sprite[0].update('UP')
+                    sprite[0].update(up)
             if event.key == pygame.K_ESCAPE:
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
                 l.info('Key pressed: ESCAPE')

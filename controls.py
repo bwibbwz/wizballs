@@ -42,6 +42,9 @@ class Direction():
         else:
             raise IndexError('There are only 2 values possible, 0 and 1 (%i was given)' % key)
 
+    def __len__(self):
+        return len(self.dir)
+
     def __str__(self):
         return self.name
 

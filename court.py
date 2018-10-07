@@ -6,6 +6,7 @@ from conf import *
 from groups import Group, CourtTilesGroup
 from sprites import SelectableSprite, HighlightableSprite
 from graphics_functions import draw_border, copy_color
+from controls import Direction
 
 class GridPosition():
     def __init__(self, x, y, max_x=X_TILES, max_y=Y_TILES):
@@ -40,8 +41,12 @@ class GridPosition():
         self._x = pos[0]
         self._y = pos[1]
 
-    def move(self, dx, dy):
-        self.pos = self.x + dx, self.y + dy 
+    def move(self, direction):
+        if len(direction) == 2:
+            self.pos = self.x + direction[0], self.y + direction[1]
+        else:
+            raise ValueError('Move only accepts a (x, y) or Direction() input.')
+
         return self.pos
 
     def __getitem__(self, key):
