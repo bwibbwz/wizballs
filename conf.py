@@ -62,6 +62,5 @@ ACTIONS['SFX'] = ('EXPLODE','VIBRATE')
 # LAYERS
 BG_L  = 1 # Background
 CT_L  = 2 # Court tiles
-CMD_L = 3 # Command tiles
 AP_L  = 4 # Active players
 SFX_L = 5 # Special effects

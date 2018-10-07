@@ -108,10 +108,6 @@ class CourtField(pygame.sprite.Sprite):
                               oob_lines.centery - 1.5 * (GRID_SIZE * (1 + GRID_PADDING)) + 1.5 * GRID_PADDING * GRID_SIZE,
                               4 * (GRID_SIZE * (1 + GRID_PADDING)) - 3 * GRID_PADDING * GRID_SIZE,
                               3 * (GRID_SIZE * (1 + GRID_PADDING)) - 3 * GRID_PADDING * GRID_SIZE),
-                             #(self.rect.right - 4 * (GRID_SIZE + GRID_PADDING),
-                             #self.rect.centery - 1.5 * (GRID_SIZE + GRID_PADDING),
-                             #4 * (GRID_SIZE + GRID_PADDING),
-                             #3 * (GRID_SIZE + GRID_PADDING)),
                              3)
             pygame.draw.circle(self.image, CL_BLACK, penalty_box1.midleft, GRID_SIZE, 3)
 
@@ -124,13 +120,6 @@ class CourtField(pygame.sprite.Sprite):
                              3)
             pygame.draw.circle(self.image, CL_BLACK, penalty_box2.midright, GRID_SIZE, 3)
 
-            #pygame.draw.line(self.image, CL_BLACK,
-            #                (oob_lines.left,
-            #                 oob_lines.top + GRID_SIZE * (1 + GRID_PADDING)),
-            #                (oob_lines.left + 2 * (GRID_SIZE * (1 + GRID_PADDING)),
-            #                 oob_lines.top + GRID_SIZE * (1 + GRID_PADDING)),
-            #                3)
-            
         self.name = name
 
 class CourtTile(SelectableSprite, HighlightableSprite):
@@ -160,38 +149,6 @@ class BasketTile(CourtTile):
         draw_border(self.image, color = self._active_color)
         # BUG: The basket itself should be drawn on top of the player sprite. 
         pygame.draw.circle(self.image, CL_BLACK, (int(GRID_SIZE / 2), int(GRID_SIZE / 2)), int(GRID_SIZE / 3), 3)
-
-class CommandTile(SelectableSprite):
-    def __init__(self, name, symbol):
-        SelectableSprite.__init__(self, main_color = CL_RED, selected_color = CL_BLACK)
-
-        font_type = pygame.font.SysFont('comicsansms', 72)
-        text_surface = font_type.render(symbol, True, [0, 0, 0])
-        text_surface = pygame.transform.scale(text_surface, [GRID_SIZE // 2, GRID_SIZE // 2])
-
-        self.image = text_surface
-        self.rect = text_surface.get_rect()
-
-        self.name = name
-        self.symbol = symbol
-
-def init_all_command_tiles(score_board):
-    ref_pos = score_board.rect.midleft
-    commands = {'left': '<', 'right': '>', 'up': '^', 'down': 'v', 'submit': 'S', 'endturn': 'T'}
-    for name, symbol in commands.items():
-        tile = CommandTile(name, symbol)
-        if name == 'left':
-            tile.rect.midleft = [0.5 * GRID_SIZE + ref_pos[0], ref_pos[1]]
-        elif name == 'right':
-            tile.rect.midleft = [1.5 * GRID_SIZE + ref_pos[0], ref_pos[1]]
-        elif name == 'up':
-            tile.rect.midleft = [1 * GRID_SIZE + ref_pos[0], -0.5 * GRID_SIZE + ref_pos[1]]
-        elif name == 'down':
-            tile.rect.midleft = [1 * GRID_SIZE + ref_pos[0], 0.5 * GRID_SIZE + ref_pos[1]]
-        elif name == 'submit':
-            tile.rect.midleft = [3 * GRID_SIZE, ref_pos[1]]
-        elif name == 'endturn':
-            tile.rect.midleft = [8 * GRID_SIZE, ref_pos[1]]
 
 def init_all_court_tiles(play_court):
     for k in range(X_TILES):
