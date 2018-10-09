@@ -16,12 +16,10 @@ class HighlightableSprite():
     def highlight(self):
         self._active_color = self._highlighted_color
         self._highlighted = True
-        self.update()
 
     def dehighlight(self):
         self._active_color = self._main_color
         self._highlighted = False
-        self.update()
 
     def is_highlighted(self):
         return self._highlighted == True
@@ -40,12 +38,10 @@ class SelectableSprite(pygame.sprite.Sprite):
         for group in self.groups:
             if group.__class__ == SingleSelectableSpriteGroup:
                 group.deselect_all_other_sprites(self)
-        self.update()
 
     def deselect(self):
         self._active_color = self._main_color
         self._selected = False
-        self.update()
 
     def is_selected(self):
         return self._selected == True
